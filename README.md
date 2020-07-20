@@ -15,5 +15,18 @@ A *proposal*:
     many times when I read or listen to. Additionally, such weak vocabulary affect my variety of speaking and writing words
     So, increasing vocabulary is necessary and significant for my living and academic studying.
 
+## User Stories
+In the context of *Vocabulary Master* application:
+- As a user, I want to be able to add a word or an idiom with its meaning to my vocabulary list.
+- As a user, I want to be able to add multiple words and idioms to my vocabulary list.
+- As a user, I want to be able to view the list of my vocabulary.
+- As a user, I want to be able to mark a word and idiom as remembered on my vocabulary list.
+- As a user, I want to be able to delete a word and idiom from my vocabulary list
+- As a user, I want to be able to play vocabulary test game among unremembered words and idiom.
+- (option) As a user, I want to be able to search a word or an idiom among the list of my vocabulary.
+- (option) As a user, I want to be able to attach labels to each word and idiom.
+- (option) As a user, I want to be able to view my vocabulary list of the same tag.
+- (option) As a user, I want to be able to play spell test game.
+
 An example of text with **bold** and *italic* fonts.  Note that the IntelliJ markdown previewer doesn't seem to render 
 the bold and italic fonts correctly but they will appear correctly on GitHub.
