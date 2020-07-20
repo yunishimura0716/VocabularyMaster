@@ -27,6 +27,3 @@ In the context of *Vocabulary Master* application:
 - (option) As a user, I want to be able to attach labels to each word and idiom.
 - (option) As a user, I want to be able to view my vocabulary list of the same tag.
 - (option) As a user, I want to be able to play spell test game.
-
-An example of text with **bold** and *italic* fonts.  Note that the IntelliJ markdown previewer doesn't seem to render 
-the bold and italic fonts correctly but they will appear correctly on GitHub.
