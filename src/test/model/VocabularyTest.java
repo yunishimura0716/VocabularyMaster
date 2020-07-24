@@ -27,7 +27,7 @@ class VocabularyTest {
     @Test
     public void setMeaningTest() {
         assertEquals(null, vocabulary.getMeaning());
-        vocabulary.setVocab("test1meaning");
+        vocabulary.setMeaning("test1meaning");
         assertEquals("test1meaning", vocabulary.getMeaning());
         vocabulary.setMeaning("test2meaning");
         assertEquals("test2meaning", vocabulary.getMeaning());

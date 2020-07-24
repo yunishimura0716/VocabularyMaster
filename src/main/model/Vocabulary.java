@@ -9,11 +9,11 @@ public class Vocabulary {
     private boolean remember = false;
 
     // EFFECTS: make object with no argument
-    Vocabulary() {
+    public Vocabulary() {
     }
 
     // EFFECTS: make default value for each fields
-    Vocabulary(String vocab, String meaning) {
+    public Vocabulary(String vocab, String meaning) {
         this.vocab = vocab;
         this.meaning = meaning;
     }
@@ -26,7 +26,7 @@ public class Vocabulary {
     // MODIFIES: this
     // EFFECTS: set value of vocab
     public void setVocab(String vocab) {
-        //stub
+        this.vocab = vocab;
     }
 
     // EFFECTS: return vocabulary
@@ -37,7 +37,7 @@ public class Vocabulary {
     // MODIFIES: this
     // EFFECTS: set value of meaning
     public void setMeaning(String meaning) {
-        //stub
+        this.meaning = meaning;
     }
 
     // EFFECTS: return vocabulary
@@ -48,6 +48,6 @@ public class Vocabulary {
     // MODIFIES: this
     // EFFECTS: change value of remember
     public void setRemember(boolean remember) {
-        //stub
+        this.remember = remember;
     }
 }

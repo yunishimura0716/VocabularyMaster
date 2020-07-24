@@ -20,12 +20,12 @@ public class VocabularyListTest {
     public void addTest() {
         assertEquals(0, vocabularyList.size());
         Vocabulary vocabulary1 = new Vocabulary("vocab1", "test1");
-        assertTrue(vocabularyList.add(vocabulary1));
+        vocabularyList.add(vocabulary1);
         assertEquals(1, vocabularyList.size());
         assertTrue(vocabularyList.contain("vocab1"));
 
         Vocabulary vocabulary2 = new Vocabulary("vocab2", "test2");
-        assertTrue(vocabularyList.add(vocabulary2));
+        vocabularyList.add(vocabulary2);
         assertEquals(2, vocabularyList.size());
         assertTrue(vocabularyList.contain("vocab1") && vocabularyList.contain("vocab2"));
     }
@@ -34,7 +34,7 @@ public class VocabularyListTest {
     public void viewTest() {
         for(int i = 0; i < 10; i++) {
             Vocabulary vocabulary = new Vocabulary("vocab" + (i+1), "test" + (i+1));
-            assertTrue(vocabularyList.add(vocabulary));
+            vocabularyList.add(vocabulary);
             assertEquals("vocab" + (i+1), vocabularyList.view(i).getVocab());
         }
         assertEquals(10, vocabularyList.size());
@@ -47,17 +47,18 @@ public class VocabularyListTest {
     public void deleteTest() {
         for(int i = 0; i < 10; i++) {
             Vocabulary vocabulary = new Vocabulary("vocab" + (i+1), "test" + (i+1));
-            assertTrue(vocabularyList.add(vocabulary));
+            vocabularyList.add(vocabulary);
         }
 
-        assertTrue(vocabularyList.delete(9));
+        Vocabulary vocabulary = vocabularyList.delete(9);
         assertEquals(9, vocabularyList.size());
         assertEquals("vocab9", vocabularyList.view(8).getVocab());
+        assertEquals("vocab10", vocabulary.getVocab());
+        assertFalse(vocabularyList.contain(vocabulary.getVocab()));
 
-        assertFalse(vocabularyList.delete(9));
-
-        assertTrue(vocabularyList.delete(2));
+        vocabulary = vocabularyList.delete(2);
         assertEquals(8, vocabularyList.size());
-        assertEquals("vocab3", vocabularyList.view(2).getVocab());
+        assertEquals("vocab3", vocabulary.getVocab());
+        assertEquals("vocab4", vocabularyList.view(2).getVocab());
     }
 }
