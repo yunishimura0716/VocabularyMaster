@@ -62,7 +62,7 @@ public class ConsoleUserInterface {
 
     // EFFECTS: show detail of vocabulary
     public void detail(int vocabNum) {
-        System.out.println("\n-----------------------------------------------------");
+        System.out.println("\n--------------------------------------------------------");
         int i = vocabNum - 1;
         String isRemember = vocabularyList.view(i).isRemember() ? "(remember)" : "(not remember)";
         System.out.println("No | vocabulary (remember or not remember)");
@@ -201,8 +201,7 @@ public class ConsoleUserInterface {
                     inputFail = false;
                 }
             } catch (InputMismatchException e) {
-                System.out.println("    This is invalid input.");
-                System.out.println("    Please give valid input");
+                cuiTool.invalidInput();
                 input.nextLine();
                 detail(vocabNum);
                 cuiTool.detailCommand();

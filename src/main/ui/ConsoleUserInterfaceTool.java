@@ -63,7 +63,7 @@ public class ConsoleUserInterfaceTool {
 
     // EFFECTS: print command menu for detail page
     public void detailCommand() {
-        System.out.println("------------------------------------------------------");
+        System.out.println("--------------------------------------------------------");
         System.out.println("              Command Menu\n");
         System.out.println("         0: home");
         System.out.println("         1: list of vocabulary");
