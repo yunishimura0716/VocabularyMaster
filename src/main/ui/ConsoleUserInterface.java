@@ -8,16 +8,18 @@ import java.util.*;
 /*
 console user interface application for English Vocabulary Master
  */
-public class CUI {
+public class ConsoleUserInterface {
     private VocabularyList vocabularyList;
+    private ConsoleUserInterfaceTool cuiTool;
     private int pageNum = 0;  // 0: home page, 1: listing page // 2: add page // 3: detail page
     private int vocabNum;
     Scanner input;
 
     // EFFECTS: make user's vocabulary list (next phase: loaded file from storage)
-    public CUI() {
+    public ConsoleUserInterface() {
         vocabularyList = new VocabularyList();
         input = new Scanner(System.in);
+        cuiTool = new ConsoleUserInterfaceTool();
     }
 
     // MODIFIES: this
@@ -82,27 +84,16 @@ public class CUI {
         pageNum = p;
     }
 
-    // EFFECTS: print command menu for home page
-    private void homeCommand() {
-        System.out.println("------------------------------------------\n\n");
-        System.out.println("              Command Menu\n");
-        System.out.println("         0: Finish Application");
-        System.out.println("         1: list of Vocabulary");
-        System.out.println("         2: add words and idioms\n\n\n");
-    }
-
     // MODIFIES: this
     // EFFECTS: showing home page on console
     public void homePage() {
-        System.out.println("\n\n------------------------------------------");
-        System.out.println("|          Vocabulary Master             |");
-        homeCommand();
+        cuiTool.homeTitle();
+        cuiTool.homeCommand();
 
         String requestPage = input.nextLine();
         while (!(requestPage.equals("1") || requestPage.equals("2") || requestPage.equals("0"))) {
-            System.out.println("    This is invalid input.");
-            System.out.println("    Please give valid input");
-            homeCommand();
+            cuiTool.invalidInput();
+            cuiTool.homeCommand();
 
             requestPage = input.nextLine();
         }
@@ -113,14 +104,6 @@ public class CUI {
         } else {
             setPageNum(page);
         }
-    }
-
-    // EFFECTS: print command menu for list page
-    private void listCommand() {
-        System.out.println("------------------------------------------------------");
-        System.out.println("              Command Menu\n");
-        System.out.println("         0: home");
-        System.out.println("            OR\n         Select Vocabulary Number to see the detail\n\n");
     }
 
     // MODIFIES: this
@@ -138,7 +121,7 @@ public class CUI {
     // EFFECTS: showing list page on console
     public void listPage() {
         list();
-        listCommand();
+        cuiTool.listCommand();
         boolean inputFail = true;
         int requestNum = 0;
         while (inputFail) {
@@ -150,46 +133,19 @@ public class CUI {
                     inputFail = false;
                 }
             } catch (InputMismatchException e) {
-                System.out.println("    This is invalid input.\n    Please give valid input");
+                cuiTool.invalidInput();
                 input.nextLine();
-                listCommand();
+                cuiTool.listCommand();
             }
         }
         listRequest(requestNum);
         input.nextLine();
     }
 
-    // EFFECTS: print command menu for add page
-    private  void addCommand() {
-        System.out.println("\n------------------------------------------------------");
-        System.out.println("|              Add Words and Idioms                  |");
-        System.out.println("------------------------------------------------------\n");
-        System.out.println("    Please follow below format to add a word or idiom and meaning\n");
-        System.out.println("        Example (Add One Vocabulary):");
-        System.out.println("            Word or Idiom: example of word");
-        System.out.println("            Meaning: example of meaning");
-        System.out.println("        Example (Add Multiple Vocabulary, Please divide by comma):");
-        System.out.println("            Word or Idiom: word1, idiom1, word2");
-        System.out.println("            Meaning: meaning1, meaning2, meaning3\n");
-        System.out.println("    (Enter 0 if you finish)\n\n");
-    }
-
-    // EFFECTS: print command menu for detail page
-    private void addMore() {
-        System.out.println("\n\n        Add more??\n");
-        System.out.println("        Example　(Add One Vocabulary):");
-        System.out.println("            Word or Idiom: word1");
-        System.out.println("            Meaning: meaning1");
-        System.out.println("        Example (Add Multiple Vocabulary, Please divide by comma):");
-        System.out.println("            Word or Idiom: word1, idiom1, word2");
-        System.out.println("            Meaning: meaning1, meaning2, meaning3\n");
-        System.out.println("    (Enter 0 if you finish)\n\n");
-    }
-
     // MODIFIES: this
     // EFFECTS: showing adding page on console
     public void addPage() {
-        addCommand();
+        cuiTool.addCommand();
 
         do {
             System.out.print("Word or Idiom: ");
@@ -205,20 +161,9 @@ public class CUI {
                 if (!success) {
                     System.out.println("Error: The number of vocabularies and meanings is different!");
                 }
-                addMore();
+                cuiTool.addMore();
             }
         } while (true);
-    }
-
-    // EFFECTS: print command menu for detail page
-    private void detailCommand() {
-        System.out.println("------------------------------------------------------");
-        System.out.println("              Command Menu\n");
-        System.out.println("         0: home");
-        System.out.println("         1: list of vocabulary");
-        System.out.println("         2: delete this vocabulary");
-        System.out.println("         3: mark as remember");
-        System.out.println("         4: unmark as remember\n");
     }
 
     // MODIFIES: this
@@ -244,7 +189,7 @@ public class CUI {
     // EFFECTS: showing detail page, user can delete or mark as remember
     public void detailPage(int vocabNum) {
         detail(vocabNum);
-        detailCommand();
+        cuiTool.detailCommand();
         int requestNum = 0;
         boolean inputFail = true;
         while (inputFail) {
@@ -260,7 +205,7 @@ public class CUI {
                 System.out.println("    Please give valid input");
                 input.nextLine();
                 detail(vocabNum);
-                detailCommand();
+                cuiTool.detailCommand();
             }
         }
         detailRequest(requestNum);
