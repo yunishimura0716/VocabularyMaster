@@ -14,7 +14,7 @@ public class CUI {
     private int vocabNum;
     Scanner input;
 
-    // EFFECTS:make user's vocabulary list (next phase: loaded file from storage)
+    // EFFECTS: make user's vocabulary list (next phase: loaded file from storage)
     public CUI() {
         vocabularyList = new VocabularyList();
         input = new Scanner(System.in);
@@ -45,12 +45,12 @@ public class CUI {
 
     // EFFECTS: list the vocabularies
     public void list() {
-        System.out.println("\n----------------------------------------------------");
+        System.out.println("\n-----------------------------------------------------");
         System.out.println("No | vocabulary (remember or not remember)");
         System.out.println("   | meaning");
-        System.out.println("--------------------------------------------------------");
+        System.out.println("------------------------------------------------------");
         for (int i = 0; i < vocabularyList.size(); i++) {
-            System.out.println("--------------------------------------------------------");
+            System.out.println("------------------------------------------------------");
             int vocabNum = i + 1;
             String isRemember = vocabularyList.view(i).isRemember() ? "(remember)" : "(not remember)";
             System.out.printf("%-3d| %s %s\n", vocabNum, vocabularyList.view(i).getVocab(), isRemember);
@@ -84,7 +84,7 @@ public class CUI {
 
     // EFFECTS: print command menu for home page
     private void homeCommand() {
-        System.out.println("-------------------------------------------------\n\n");
+        System.out.println("------------------------------------------\n\n");
         System.out.println("              Command Menu\n");
         System.out.println("         0: Finish Application");
         System.out.println("         1: list of Vocabulary");
@@ -161,8 +161,9 @@ public class CUI {
 
     // EFFECTS: print command menu for add page
     private  void addCommand() {
-        System.out.println("\n-----------------------------------------------------\n");
-        System.out.println("              Add Words and Idioms\n");
+        System.out.println("\n------------------------------------------------------");
+        System.out.println("|              Add Words and Idioms                  |");
+        System.out.println("------------------------------------------------------\n");
         System.out.println("    Please follow below format to add a word or idiom and meaning\n");
         System.out.println("        Example (Add One Vocabulary):");
         System.out.println("            Word or Idiom: example of word");
