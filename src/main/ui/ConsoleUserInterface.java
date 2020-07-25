@@ -2,7 +2,9 @@ package ui;
 
 import model.Vocabulary;
 import model.VocabularyList;
+import tool.VocabularyFileTool;
 
+import java.io.IOException;
 import java.util.*;
 
 /*
@@ -14,12 +16,24 @@ public class ConsoleUserInterface {
     private int pageNum = 0;  // 0: home page, 1: listing page // 2: add page // 3: detail page
     private int vocabNum;
     Scanner input;
+    private String filename = "vocabularyData.txt";
+    private VocabularyFileTool fileTool;
 
     // EFFECTS: make user's vocabulary list (next phase: loaded file from storage)
     public ConsoleUserInterface() {
         vocabularyList = new VocabularyList();
         input = new Scanner(System.in);
         cuiTool = new ConsoleUserInterfaceTool();
+        try {
+            fileTool = new VocabularyFileTool(vocabularyList, filename);
+        } catch (IOException e) {
+            System.out.println("Fail to connect with your file system");
+        }
+        try {
+            fileTool.load();
+        } catch (IOException e) {
+            System.out.println("Fail to load data");
+        }
     }
 
     // MODIFIES: this
@@ -37,6 +51,12 @@ public class ConsoleUserInterface {
             for (int i = 0; i < vocablist.length; i++) {
                 Vocabulary vocabulary = new Vocabulary(vocablist[i], meaninglist[i]);
                 vocabularyList.add(vocabulary);
+            }
+            try {
+                fileTool.flushFile();
+                fileTool.save();
+            } catch (IOException e) {
+                System.out.println("Fail to add your data");
             }
             return true;
         } else {
@@ -60,6 +80,7 @@ public class ConsoleUserInterface {
         }
     }
 
+    // REQUIRES: vocabNum >= 1
     // EFFECTS: show detail of vocabulary
     public void detail(int vocabNum) {
         System.out.println("\n--------------------------------------------------------");
@@ -182,6 +203,12 @@ public class ConsoleUserInterface {
         } else {
             vocabularyList.view(vocabNum - 1).setRemember(false);
             setPageNum(1);
+        }
+        try {
+            fileTool.flushFile();
+            fileTool.save();
+        } catch (IOException e) {
+            System.out.println("Fail to update your data");
         }
     }
 

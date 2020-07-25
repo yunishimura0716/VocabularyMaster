@@ -1,0 +1,7 @@
+word2,meaning2,true
+word3,meaning3,false
+word4,meaning4,true
+word5,meaning5,false
+word6,meaning6,false
+word7,meaning7,true
+word8,meaning8,false

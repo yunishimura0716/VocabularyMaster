@@ -1,5 +1,9 @@
 package ui;
 
+
+/*
+Collection of CUI tool to display instructions
+ */
 public class ConsoleUserInterfaceTool {
 
     public ConsoleUserInterfaceTool() {
