@@ -15,6 +15,9 @@ A *proposal*:
     many times when I read or listen to. Additionally, such weak vocabulary affect my variety of speaking and writing words
     So, increasing vocabulary is necessary and significant for my living and academic studying.
 
+## How to start this application
+Just run main method in Main class
+
 ## User Stories
 In the context of *Vocabulary Master* application:
 - As a user, I want to be able to add a word or an idiom with its meaning to my vocabulary list.
