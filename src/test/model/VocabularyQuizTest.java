@@ -26,6 +26,7 @@ public class VocabularyQuizTest {
         quiz.makeQuiz(1);
 
         assertEquals(quiz.NUM_SELECT, quiz.getSelections().size());
+        assertEquals("word2", quiz.getVocabulary().getVocab());
         assertEquals("meaning2", quiz.getSelections().get(quiz.getAnswer()));
         assertTrue(quiz.getSelections().contains("meaning1"));
         assertTrue(quiz.getSelections().contains("meaning3"));

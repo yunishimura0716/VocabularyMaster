@@ -11,6 +11,7 @@ public class VocabularyQuiz {
     private VocabularyList vocabularyList;
     static final int NUM_SELECT = 4;
     private int answer = -1;
+    private Vocabulary vocabulary;
     private ArrayList<String> selections;
 
     public VocabularyQuiz(VocabularyList vocabularyList) {
@@ -22,6 +23,7 @@ public class VocabularyQuiz {
     // MODIFIES: this
     public void makeQuiz(int vocabularyNum) {
         setAnswer((int)(Math.random() * NUM_SELECT));
+        setVocabulary(vocabularyList.view(vocabularyNum));
         ArrayList<Integer> indexes = makeIndexes();
         indexes.remove(vocabularyNum);
 
@@ -71,4 +73,13 @@ public class VocabularyQuiz {
         }
     }
 
+    // EFFECTS: get vocabulary for a quiz
+    public Vocabulary getVocabulary() {
+        return vocabulary;
+    }
+
+    // EFFECTS: set vocabulary for a quiz
+    public void setVocabulary(Vocabulary vocabulary) {
+        this.vocabulary = vocabulary;
+    }
 }
