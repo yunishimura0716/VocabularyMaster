@@ -14,7 +14,7 @@ public class VocabularyQuizListTest {
     @BeforeEach
     public void setUp() {
         vocabularyList = new VocabularyList();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 11; i++) {
             Vocabulary v = new Vocabulary("word" + (i+1), "meaning" + (i+1));
             vocabularyList.add(v);
         }
@@ -23,6 +23,8 @@ public class VocabularyQuizListTest {
 
     @Test
     public void makeQuizListTest() {
+        vocabularyList.view(0).setRemember(true);
+
         quizList.makeQuizList();
 
         ArrayList<String> vocabListForQuiz = new ArrayList<>();
@@ -33,5 +35,7 @@ public class VocabularyQuizListTest {
             assertFalse(vocabListForQuiz.contains(quiz.getVocabulary().getVocab()));
             vocabListForQuiz.add(quiz.getVocabulary().getVocab());
         }
+
+        assertFalse(vocabListForQuiz.contains(vocabularyList.view(0).getVocab()));
     }
 }
