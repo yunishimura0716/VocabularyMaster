@@ -4,34 +4,35 @@ package ui;
 /*
 Collection of CUI tool to display instructions
  */
-public class ConsoleUserInterfaceTool {
+public class ConsoleUIAssist {
 
-    public ConsoleUserInterfaceTool() {
+    public ConsoleUIAssist() {
     }
 
     // EFFECTS: print to remind user of giving invalid input
-    public void invalidInput() {
+    public static void invalidInput() {
         System.out.println("    This is invalid input.");
-        System.out.println("    Please give valid input");
+        System.out.println("    Please give valid input\n");
     }
 
     // EFFECTS: print title for home page
-    public void homeTitle() {
+    public static void homeTitle() {
         System.out.println("\n\n------------------------------------------");
         System.out.println("|          Vocabulary Master             |");
     }
 
     // EFFECTS: print command menu for home page
-    public void homeCommand() {
+    public static void homeCommand() {
         System.out.println("------------------------------------------\n\n");
         System.out.println("              Command Menu\n");
         System.out.println("         0: Finish Application");
         System.out.println("         1: list of Vocabulary");
-        System.out.println("         2: add words and idioms\n\n\n");
+        System.out.println("         2: add words and idioms");
+        System.out.println("         3: vocabulary quiz\n\n\n");
     }
 
     // EFFECTS: print command menu for list page
-    public void listCommand() {
+    public static void listCommand() {
         System.out.println("------------------------------------------------------");
         System.out.println("              Command Menu\n");
         System.out.println("         0: home");
@@ -39,7 +40,7 @@ public class ConsoleUserInterfaceTool {
     }
 
     // EFFECTS: print command menu for add page
-    public void addCommand() {
+    public static void addCommand() {
         System.out.println("\n------------------------------------------------------");
         System.out.println("|              Add Words and Idioms                  |");
         System.out.println("------------------------------------------------------\n");
@@ -54,7 +55,7 @@ public class ConsoleUserInterfaceTool {
     }
 
     // EFFECTS: print command menu for detail page
-    public void addMore() {
+    public static void addMore() {
         System.out.println("\n\n        Add more??\n");
         System.out.println("        Example　(Add One Vocabulary):");
         System.out.println("            Word or Idiom: word1");
@@ -66,7 +67,7 @@ public class ConsoleUserInterfaceTool {
     }
 
     // EFFECTS: print command menu for detail page
-    public void detailCommand() {
+    public static void detailCommand() {
         System.out.println("--------------------------------------------------------");
         System.out.println("              Command Menu\n");
         System.out.println("         0: home");

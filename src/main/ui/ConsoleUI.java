@@ -1,8 +1,11 @@
 package ui;
 
+import com.sun.tools.corba.se.idl.IncludeGen;
+import exceptions.NotEnoughVocabularyException;
 import model.Vocabulary;
 import model.VocabularyList;
 import tool.VocabularyFileTool;
+import model.VocabularyQuizList;
 
 import java.io.IOException;
 import java.util.*;
@@ -10,20 +13,21 @@ import java.util.*;
 /*
 console user interface application for English Vocabulary Master
  */
-public class ConsoleUserInterface {
+public class ConsoleUI {
     private VocabularyList vocabularyList;
-    private ConsoleUserInterfaceTool cuiTool;
+    private ConsoleUIAssist cuiTool;
     private int pageNum = 0;  // 0: home page, 1: listing page // 2: add page // 3: detail page
     private int vocabNum;
     Scanner input;
     private String filename = "vocabularyData.txt";
     private VocabularyFileTool fileTool;
+    private VocabularyQuizList quiz;
 
     // EFFECTS: make user's vocabulary list (next phase: loaded file from storage)
-    public ConsoleUserInterface() {
+    public ConsoleUI() {
         vocabularyList = new VocabularyList();
         input = new Scanner(System.in);
-        cuiTool = new ConsoleUserInterfaceTool();
+        cuiTool = new ConsoleUIAssist();
         try {
             fileTool = new VocabularyFileTool(vocabularyList, filename);
         } catch (IOException e) {
@@ -34,6 +38,7 @@ public class ConsoleUserInterface {
         } catch (IOException e) {
             System.out.println("Fail to load data");
         }
+        quiz = new VocabularyQuizList(vocabularyList);
     }
 
     // MODIFIES: this
@@ -109,20 +114,26 @@ public class ConsoleUserInterface {
     // EFFECTS: showing home page on console
     public void homePage() {
         cuiTool.homeTitle();
-        cuiTool.homeCommand();
-
-        String requestPage = input.nextLine();
-        while (!(requestPage.equals("1") || requestPage.equals("2") || requestPage.equals("0"))) {
-            cuiTool.invalidInput();
-            cuiTool.homeCommand();
-
-            requestPage = input.nextLine();
+        int page = 0;
+        boolean inputFail = true;
+        while (inputFail) {
+            try {
+                cuiTool.homeCommand();
+                page = Integer.parseInt(input.nextLine()); // 0: exit, 1: list, 2: add, 3: quiz
+                if (page < 0 || 3 < page) {
+                    throw new NumberFormatException();
+                } else {
+                    inputFail = false;
+                }
+            } catch (NumberFormatException e) {
+                cuiTool.invalidInput();
+            }
         }
-
-        int page = Integer.parseInt(requestPage);
         if (page == 0) {
+            setPageNum(5);
+        } else if (page == 3) {
             setPageNum(4);
-        } else {
+        } else  {
             setPageNum(page);
         }
     }
@@ -237,7 +248,20 @@ public class ConsoleUserInterface {
         detailRequest(requestNum);
     }
 
-    // 0: home page, 1: listing page // 2: add page // 3: detail page // 4: end app
+    // EFFECTS: showing vocabulary quiz page
+    public void vocabularyQuizPage() {
+        try {
+            quiz.makeQuizList();
+
+            QuizRunnerConsoleUI quizRunner = new QuizRunnerConsoleUI(quiz);
+            quizRunner.runQuiz();
+        } catch (NotEnoughVocabularyException e) {
+            System.out.println(e.getMessage());
+        }
+        setPageNum(0);
+    }
+
+    // 0: home page, 1: listing page // 2: add page // 3: detail page // 4: vocabulary quiz // otherwise, end app
     // EFFECTS: complete CUI application using each page method
     public void main() {
         while (true) {
@@ -249,6 +273,8 @@ public class ConsoleUserInterface {
                 this.addPage();
             } else if (this.getPageNum() == 3) {
                 this.detailPage(vocabNum);
+            } else if (this.getPageNum() == 4) {
+                this.vocabularyQuizPage();
             } else {
                 System.exit(0);
             }

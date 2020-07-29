@@ -1,7 +1,11 @@
-word2,meaning2,true
+word2,meaning2,false
 word3,meaning3,false
-word4,meaning4,true
+word4,meaning4,false
 word5,meaning5,false
 word6,meaning6,false
-word7,meaning7,true
+word7,meaning7,false
 word8,meaning8,false
+word9,meaning9,false
+word10,meaning10,false
+word11,meaning1,false
+example of idiom1,example of meaning1,false

@@ -1,5 +1,6 @@
 package model;
 
+import exceptions.NotEnoughVocabularyException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -25,7 +26,11 @@ public class VocabularyQuizListTest {
     public void makeQuizListTest() {
         vocabularyList.view(0).setRemember(true);
 
-        quizList.makeQuizList();
+        try {
+            quizList.makeQuizList();
+        } catch (NotEnoughVocabularyException e) {
+            fail("Fail to make quiz");
+        }
 
         ArrayList<String> vocabListForQuiz = new ArrayList<>();
 

@@ -1,5 +1,7 @@
 package model;
 
+import exceptions.NotEnoughVocabularyException;
+
 import java.util.ArrayList;
 
 /*
@@ -17,8 +19,11 @@ public class VocabularyQuizList {
 
     // MODIFIES: this
     // EFFECTS: make lis of vocabulary quiz
-    public void makeQuizList() {
+    public void makeQuizList() throws NotEnoughVocabularyException {
         ArrayList<Integer> indexesNotRemember = makeIndexesNotRemember();
+        if (indexesNotRemember.size() < MAX_NUMBER_QUIZ) {
+            throw new NotEnoughVocabularyException("Not Enough Vocabulary! (" + MAX_NUMBER_QUIZ + " needed)");
+        }
 
         for (int i = 0; i < MAX_NUMBER_QUIZ; i++) {
             int indexNotRemember = (int)(Math.random() * indexesNotRemember.size());
