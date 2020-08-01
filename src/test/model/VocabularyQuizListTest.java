@@ -23,6 +23,18 @@ public class VocabularyQuizListTest {
     }
 
     @Test
+    public void failMakeQuizTest() {
+        vocabularyList.view(0).setRemember(true);
+        vocabularyList.view(1).setRemember(true);
+        try {
+            quizList.makeQuizList();
+            fail("Fail to throw NotEnoughVocabularyException");
+        } catch (NotEnoughVocabularyException e) {
+            // do nothing
+        }
+    }
+
+    @Test
     public void makeQuizListTest() {
         vocabularyList.view(0).setRemember(true);
 
