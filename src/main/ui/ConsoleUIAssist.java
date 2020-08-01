@@ -25,7 +25,7 @@ public class ConsoleUIAssist {
     public static void homeCommand() {
         System.out.println("------------------------------------------\n\n");
         System.out.println("              Command Menu\n");
-        System.out.println("         0: Finish Application");
+        System.out.println("         0: Finish Application (save vocabulary list automatically)");
         System.out.println("         1: list of Vocabulary");
         System.out.println("         2: add words and idioms");
         System.out.println("         3: vocabulary quiz\n\n\n");
@@ -35,6 +35,7 @@ public class ConsoleUIAssist {
     public static void listCommand() {
         System.out.println("------------------------------------------------------");
         System.out.println("              Command Menu\n");
+        System.out.println("        -1: save vocabulary list");
         System.out.println("         0: home");
         System.out.println("            OR\n         Select Vocabulary Number to see the detail\n\n");
     }

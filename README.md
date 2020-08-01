@@ -26,6 +26,9 @@ In the context of *Vocabulary Master* application:
 - As a user, I want to be able to mark a word and idiom as remembered on my vocabulary list.
 - As a user, I want to be able to delete a word and idiom from my vocabulary list
 - As a user, I want to be able to play vocabulary test game among unremembered words and idiom.
+- As a user, I want to be able to save my vocabulary list
+- As a user, I want to be able to load my vocabulary list from a file when the program starts
+- As a user, when I select the quit option from the application menu, I want the option to save my vocabulary list to file. 
 - (option) As a user, I want to be able to search a word or an idiom among the list of my vocabulary.
 - (option) As a user, I want to be able to attach labels to each word and idiom.
 - (option) As a user, I want to be able to view my vocabulary list of the same tag.

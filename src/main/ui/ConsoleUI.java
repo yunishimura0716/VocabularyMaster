@@ -1,10 +1,9 @@
 package ui;
 
-import com.sun.tools.corba.se.idl.IncludeGen;
 import exceptions.NotEnoughVocabularyException;
 import model.Vocabulary;
 import model.VocabularyList;
-import tool.VocabularyFileTool;
+import persistence.VocabularyFileSystem;
 import model.VocabularyQuizList;
 
 import java.io.IOException;
@@ -20,7 +19,7 @@ public class ConsoleUI {
     private int vocabNum;
     Scanner input;
     private String filename = "vocabularyData.txt";
-    private VocabularyFileTool fileTool;
+    private VocabularyFileSystem fileTool;
     private VocabularyQuizList quiz;
 
     // EFFECTS: make user's vocabulary list (next phase: loaded file from storage)
@@ -29,7 +28,7 @@ public class ConsoleUI {
         input = new Scanner(System.in);
         cuiTool = new ConsoleUIAssist();
         try {
-            fileTool = new VocabularyFileTool(vocabularyList, filename);
+            fileTool = new VocabularyFileSystem(vocabularyList, filename);
         } catch (IOException e) {
             System.out.println("Fail to connect with your file system");
         }
@@ -56,12 +55,6 @@ public class ConsoleUI {
             for (int i = 0; i < vocablist.length; i++) {
                 Vocabulary vocabulary = new Vocabulary(vocablist[i], meaninglist[i]);
                 vocabularyList.add(vocabulary);
-            }
-            try {
-                fileTool.flushFile();
-                fileTool.save();
-            } catch (IOException e) {
-                System.out.println("Fail to add your data");
             }
             return true;
         } else {
@@ -110,6 +103,30 @@ public class ConsoleUI {
         pageNum = p;
     }
 
+    // MODiFIES: this
+    // EFFECTS: refresh the file and save vocabulary list into file
+    public void saveVocabularyList() {
+        try {
+            fileTool.flushFile();
+            fileTool.save();
+            System.out.println("\nSucceed to save vocabulary list!\n");
+        } catch (IOException e) {
+            System.out.println("Fail to update your data");
+        }
+    }
+
+    // EFFECTS: set page number based request number
+    private void homeRequest(int page) {
+        if (page == 0) {
+            saveVocabularyList();
+            setPageNum(5);
+        } else if (page == 3) {
+            setPageNum(4);
+        } else  {
+            setPageNum(page);
+        }
+    }
+
     // MODIFIES: this
     // EFFECTS: showing home page on console
     public void homePage() {
@@ -129,13 +146,7 @@ public class ConsoleUI {
                 cuiTool.invalidInput();
             }
         }
-        if (page == 0) {
-            setPageNum(5);
-        } else if (page == 3) {
-            setPageNum(4);
-        } else  {
-            setPageNum(page);
-        }
+        homeRequest(page);
     }
 
     // MODIFIES: this
@@ -143,6 +154,8 @@ public class ConsoleUI {
     private void listRequest(int requestNum) {
         if (requestNum == 0) {
             setPageNum(0);
+        } else if (requestNum == -1) {
+            saveVocabularyList();
         } else {
             setPageNum(3);
             vocabNum = requestNum;
@@ -159,7 +172,7 @@ public class ConsoleUI {
         while (inputFail) {
             try {
                 requestNum = input.nextInt();
-                if (requestNum < 0 || vocabularyList.size() < requestNum) {
+                if (requestNum < -1 || vocabularyList.size() < requestNum) {
                     throw new InputMismatchException();
                 } else {
                     inputFail = false;
@@ -214,12 +227,6 @@ public class ConsoleUI {
         } else {
             vocabularyList.view(vocabNum - 1).setRemember(false);
             setPageNum(1);
-        }
-        try {
-            fileTool.flushFile();
-            fileTool.save();
-        } catch (IOException e) {
-            System.out.println("Fail to update your data");
         }
     }
 

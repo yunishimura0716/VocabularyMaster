@@ -1,4 +1,4 @@
-package tool;
+package persistence;
 
 import model.Vocabulary;
 import model.VocabularyList;
@@ -8,7 +8,7 @@ import java.io.*;
 /*
 class save Vocabulary List into file and load the file to give Vocabulary List
  */
-public class VocabularyFileTool {
+public class VocabularyFileSystem {
     private VocabularyList vocabularyList;
     private String filename;
     private String filepath;
@@ -16,7 +16,7 @@ public class VocabularyFileTool {
 
 
     // EFFECTS: get vocabulary list from calling method
-    public VocabularyFileTool(VocabularyList vocabularyList, String filename) throws IOException {
+    public VocabularyFileSystem(VocabularyList vocabularyList, String filename) throws IOException {
         setFilename(filename);
         this.vocabularyList = vocabularyList;
         makePath();

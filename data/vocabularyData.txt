@@ -1,11 +1,12 @@
+bureaucracy,system of government in which decisions are made by state official,false
+Easy does it,slow down,false
+word1,meaning1,false
 word2,meaning2,false
-word3,meaning3,false
+wordd3,meaning3,false
 word4,meaning4,false
-word5,meaning5,false
-word6,meaning6,false
 word7,meaning7,false
 word8,meaning8,false
 word9,meaning9,false
 word10,meaning10,false
-word11,meaning1,false
-example of idiom1,example of meaning1,false
+word20,meaning20,false
+word21,meaning21,false

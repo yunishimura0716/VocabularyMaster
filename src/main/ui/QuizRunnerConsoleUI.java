@@ -39,7 +39,7 @@ public class QuizRunnerConsoleUI {
     public void showQuestion(int i) {
         Vocabulary questionVocabulary = quiz.viewQuiz(i).getVocabulary();
         System.out.println("------------------------------------------------------");
-        System.out.println("|              Question" + (i + 1) + "                     |");
+        System.out.println("|                 Question" + (i + 1) + "                          |");
         System.out.println("------------------------------------------------------\n");
         System.out.println("What is meaning of \"" + questionVocabulary.getVocab() + "\" ?");
 

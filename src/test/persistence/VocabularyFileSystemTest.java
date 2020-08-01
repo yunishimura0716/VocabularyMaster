@@ -1,15 +1,16 @@
-package tool;
+package persistence;
 
 import model.Vocabulary;
 import model.VocabularyList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import persistence.VocabularyFileSystem;
 
 import java.io.IOException;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class VocabularyFileToolTest {
-    private VocabularyFileTool fileTool;
+public class VocabularyFileSystemTest {
+    private VocabularyFileSystem fileTool;
     private VocabularyList vocabularyList;
     private String filename = "testVocabularyData.txt";
 
@@ -17,7 +18,7 @@ public class VocabularyFileToolTest {
     public void setUp() {
         vocabularyList = new VocabularyList();
         try {
-            fileTool = new VocabularyFileTool(vocabularyList, filename);
+            fileTool = new VocabularyFileSystem(vocabularyList, filename);
             fileTool.flushFile();
         } catch (IOException e) {
             fail("Fail to make file object");
@@ -40,7 +41,7 @@ public class VocabularyFileToolTest {
         VocabularyList newList = new VocabularyList();
         try {
             fileTool.save();
-            fileTool = new VocabularyFileTool(newList, filename);
+            fileTool = new VocabularyFileSystem(newList, filename);
             fileTool.load();
         } catch (IOException e) {
             fail("Fail to save No data");
@@ -62,7 +63,7 @@ public class VocabularyFileToolTest {
         }
         VocabularyList newList = new VocabularyList();
         try {
-            fileTool = new VocabularyFileTool(newList, filename);
+            fileTool = new VocabularyFileSystem(newList, filename);
             fileTool.load();
         } catch (IOException e) {
             fail("Fail to load data");
