@@ -1,5 +1,6 @@
 package ui;
 
+import model.Vocabulary;
 import model.VocabularyList;
 import model.VocabularyQuizList;
 import persistence.VocabularyFileSystem;
@@ -7,6 +8,7 @@ import persistence.VocabularyFileSystem;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class GraphicalUI {
     private JFrame frame;
@@ -88,6 +90,29 @@ public class GraphicalUI {
     }
 
     // MODIFIES: this
+    // EFFECTS: add vocabularies into list
+    public boolean post(String vocabs, String meanings) {
+        String[] vocablist = {vocabs};
+        String[] meaninglist = {meanings};
+        if (vocabs.contains(",")) {
+            vocablist = vocabs.split("\\s*,\\s*");
+        }
+        if (meanings.contains(",")) {
+            meaninglist = meanings.split("\\s*,\\s*");
+        }
+        if (vocablist.length == meaninglist.length) {
+            for (int i = 0; i < vocablist.length; i++) {
+                Vocabulary vocabulary = new Vocabulary(vocablist[i], meaninglist[i]);
+                vocabularyList.add(vocabulary);
+            }
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+    // MODIFIES: this
     // EFFECTS: showing howe page
     public void home() {
         setUp();
@@ -118,7 +143,11 @@ public class GraphicalUI {
     // MODIFIES: this
     // EFFECTS: showing add page
     public void add() {
-
+        setUp();
+        guiAssist.addHead();
+        ArrayList<JTextField> textFields = guiAssist.addBody();
+        guiAssist.addCommand(textFields);
+        frame.setVisible(true);
     }
 
     // MODIFIES: this

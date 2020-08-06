@@ -74,12 +74,38 @@ public class GraphicalUIAssist {
         });
     }
 
-    //EFFECTS: add action listener to add
+    // EFFECTS: add action listener to show add page
     public void addListener(JButton b) {
         b.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 gui.add();
+            }
+        });
+    }
+
+    //EFFECTS: register action listener to add vocabulary to list
+    public void registerListener(JButton b, ArrayList<JTextField> textFields) {
+        b.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String vocabularies = textFields.get(0).getText();
+                String meanings = textFields.get(1).getText();
+                if (vocabularies.equals("") || meanings.equals("")) {
+                    JOptionPane.showMessageDialog(gui.getFrame(),
+                            "Please add at least one vocabulary and its meaning",
+                            "Add Error",
+                            JOptionPane.ERROR_MESSAGE);
+                } else if (gui.post(vocabularies, meanings)) {
+                    JOptionPane.showMessageDialog(gui.getFrame(),
+                            "Succeed to add vocabulary");
+                    gui.add();
+                } else {
+                    JOptionPane.showMessageDialog(gui.getFrame(),
+                            "The number of vocabularies and meanings is different!",
+                            "Add Error",
+                            JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
     }
@@ -263,7 +289,7 @@ public class GraphicalUIAssist {
         gui.getConstraints().fill = GridBagConstraints.HORIZONTAL;
         gui.getConstraints().gridx = 0;
         gui.getConstraints().gridy = 0;
-        gui.getConstraints().insets = new Insets(2, 10, 60, 10);
+        gui.getConstraints().insets = new Insets(2, 50, 60, 10);
         gui.getPanel().add(header, gui.getConstraints());
     }
 
@@ -284,7 +310,8 @@ public class GraphicalUIAssist {
         gui.getConstraints().fill = GridBagConstraints.HORIZONTAL;
         gui.getConstraints().gridx = 0;
         gui.getConstraints().gridy = 2;
-        gui.getConstraints().insets = new Insets(2, 10, 100, 10);
+        gui.getConstraints().gridwidth = GridBagConstraints.REMAINDER;
+        gui.getConstraints().insets = new Insets(2, 50, 100, 10);
         gui.getPanel().add(vmeaning, gui.getConstraints());
     }
 
@@ -309,6 +336,75 @@ public class GraphicalUIAssist {
                     isRememberListener(b, index, values[2].equals("remember"));
                     break;
                 case 3:
+                    homeListener(b);
+                    break;
+            }
+            gui.getPanel().add(b, gui.getConstraints());
+        }
+    }
+
+    // EFFECTS: showing header of add page
+    public void addHead() {
+        JLabel header = new JLabel("Add Vocabulary");
+        header.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 25));
+        gui.getConstraints().fill = GridBagConstraints.HORIZONTAL;
+        gui.getConstraints().gridx = 0;
+        gui.getConstraints().gridy = 0;
+        gui.getConstraints().insets = new Insets(5, 50, 25, 10);
+        gui.getPanel().add(header, gui.getConstraints());
+
+        String expText = "<html><pre>Please add words or idioms with its meaning.<br>";
+        expText += "If you want to add multiple words, Please divide each vocabularies by comma.</pre><html>";
+        JLabel explanation = new JLabel(expText);
+        explanation.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 18));
+        gui.getConstraints().fill = GridBagConstraints.HORIZONTAL;
+        gui.getConstraints().gridx = 0;
+        gui.getConstraints().gridy = 1;
+        gui.getConstraints().gridwidth = 1;
+        gui.getConstraints().insets = new Insets(5,50, 40, 10);
+        gui.getPanel().add(explanation, gui.getConstraints());
+    }
+
+    // EFFECTS: setting input of vocabulary and meaning field
+    public ArrayList<JTextField> addBody() {
+        String[] labels = {"words or idioms:", "meanings:"};
+        ArrayList<JTextField> textFields = new ArrayList<>();
+        int size = 2;
+        for (int i = 0; i < size; i++) {
+            JLabel label = new JLabel(labels[i]);
+            label.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 18));
+            JTextField input = new JTextField(20);
+            gui.getConstraints().fill = GridBagConstraints.HORIZONTAL;
+            gui.getConstraints().gridx = 0;
+            gui.getConstraints().gridy = 2 + i;
+            gui.getConstraints().insets = new Insets(5, 50, 10, 10);
+            gui.getPanel().add(label, gui.getConstraints());
+            gui.getConstraints().gridx = 0;
+            gui.getConstraints().insets = new Insets(5, 300, 10, 10);
+            gui.getPanel().add(input, gui.getConstraints());
+
+            textFields.add(input);
+        }
+
+        return textFields;
+    }
+
+    // EFFECTS: showing command of add page
+    public void addCommand(ArrayList<JTextField> textFields) {
+        String[] values = {"register", "home"};
+        int size = 2;
+        for (int i = 0; i < size; i++) {
+            JButton b = new JButton(values[i]);
+            gui.getConstraints().fill = GridBagConstraints.HORIZONTAL;
+            gui.getConstraints().gridwidth = 1;
+            gui.getConstraints().gridx = 0;
+            gui.getConstraints().gridy = 4 + i;
+            gui.getConstraints().insets = new Insets(15, 350, 5, 350);
+            switch (i) {
+                case 0:
+                    registerListener(b, textFields);
+                    break;
+                case 1:
                     homeListener(b);
                     break;
             }

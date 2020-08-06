@@ -105,7 +105,7 @@ public class ConsoleUI {
 
     // MODiFIES: this
     // EFFECTS: refresh the file and save vocabulary list into file
-    public void saveVocabularyList() {
+    public void save() {
         try {
             fileTool.flushFile();
             fileTool.save();
@@ -118,7 +118,7 @@ public class ConsoleUI {
     // EFFECTS: set page number based request number
     private void homeRequest(int page) {
         if (page == 0) {
-            saveVocabularyList();
+            save();
             setPageNum(5);
         } else if (page == 3) {
             setPageNum(4);
@@ -155,7 +155,7 @@ public class ConsoleUI {
         if (requestNum == 0) {
             setPageNum(0);
         } else if (requestNum == -1) {
-            saveVocabularyList();
+            save();
         } else {
             setPageNum(3);
             vocabNum = requestNum;
