@@ -23,7 +23,16 @@ public class GraphicalUIAssist {
         b.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                gui.save();
+                int n = JOptionPane.showConfirmDialog(
+                        gui.getFrame(),
+                        "Would you like to save your vocabulary?",
+                        "Confirm Message",
+                        JOptionPane.YES_NO_OPTION);
+                if (n == 0) {
+                    gui.save();
+                } else {
+                    // do nothing
+                }
                 System.exit(0);
             }
         });
