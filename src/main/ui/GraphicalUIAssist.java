@@ -308,14 +308,16 @@ public class GraphicalUIAssist {
         Vocabulary v = vocabList.view(index);
         String remember = v.isRemember() ? "remember" : "not remember";
         JLabel vlabel = new JLabel(String.format("<html><pre>%s  (%s)</pre></html>", v.getVocab(), remember));
-        vlabel.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 30));
+        vlabel.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 25));
+        vlabel.setHorizontalAlignment(SwingConstants.LEFT);
         gui.getConstraints().fill = GridBagConstraints.HORIZONTAL;
         gui.getConstraints().gridx = 0;
         gui.getConstraints().gridy = 1;
         gui.getPanel().add(vlabel, gui.getConstraints());
 
-        JLabel vmeaning = new JLabel(String.format("<html><pre>%s</pre></html>", v.getMeaning()));
+        JTextArea vmeaning = new JTextArea(String.format("%s", v.getMeaning()));
         vmeaning.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 20));
+        vmeaning.setLineWrap(true);
         gui.getConstraints().fill = GridBagConstraints.HORIZONTAL;
         gui.getConstraints().gridx = 0;
         gui.getConstraints().gridy = 2;
