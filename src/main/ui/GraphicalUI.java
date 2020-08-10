@@ -1,6 +1,5 @@
 package ui;
 
-import exceptions.InvalidLoadException;
 import exceptions.NotEnoughVocabularyException;
 import model.Vocabulary;
 import model.VocabularyList;
@@ -123,7 +122,7 @@ public class GraphicalUI {
     public void load() {
         try {
             if (vocabularyList.size() > 0) {
-                throw new InvalidLoadException("Vocabularies already exist in list");
+                throw new IOException();
             }
             fileTool.load();
             fileTool.flushFile();
@@ -131,9 +130,6 @@ public class GraphicalUI {
                     "Succeed to load your vocabulary data.");
         } catch (IOException e) {
             JOptionPane.showMessageDialog(frame,"Fail to load file data into your vocabulary list.",
-                    "Loading Error", JOptionPane.ERROR_MESSAGE);
-        } catch (InvalidLoadException e) {
-            JOptionPane.showMessageDialog(frame, e.getMessage(),
                     "Loading Error", JOptionPane.ERROR_MESSAGE);
         }
     }
