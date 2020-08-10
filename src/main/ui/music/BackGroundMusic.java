@@ -9,7 +9,8 @@ class provide background ui.music
  */
 public class BackGroundMusic extends Music {
 
-    public BackGroundMusic(String filename) throws IOException, LineUnavailableException, UnsupportedAudioFileException {
+    public BackGroundMusic(String filename) throws IOException, LineUnavailableException,
+            UnsupportedAudioFileException {
         super(filename);
     }
 
