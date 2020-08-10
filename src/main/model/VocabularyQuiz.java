@@ -10,7 +10,7 @@ class provide a set of vocabulary quiz
 public class VocabularyQuiz {
     private VocabularyList vocabularyList;
     public static final int NUM_SELECT = 4;
-    private int answer = -1;
+    private int answer = -1; // answer : [0, 1, 2, 3]
     private Vocabulary vocabulary;
     private ArrayList<String> selections;
 

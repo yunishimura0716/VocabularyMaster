@@ -5,6 +5,8 @@ import model.Vocabulary;
 import model.VocabularyList;
 import persistence.VocabularyFileSystem;
 import model.VocabularyQuizList;
+import ui.assist.ConsoleUIAssist;
+import ui.assist.QuizRunnerConsoleUI;
 
 import java.io.IOException;
 import java.util.*;

@@ -1,15 +1,25 @@
 package ui;
 
+import exceptions.InvalidLoadException;
+import exceptions.NotEnoughVocabularyException;
 import model.Vocabulary;
 import model.VocabularyList;
 import model.VocabularyQuizList;
 import persistence.VocabularyFileSystem;
+import ui.assist.GraphicalUIAssist;
+import ui.assist.QuizRunnerGraphicalUI;
+import ui.image.ImagePanel;
+import ui.music.BackGroundMusic;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 
+
+/*
+Class provide graphical user interface
+ */
 public class GraphicalUI {
     private JFrame frame;
     private JPanel panel;
@@ -19,6 +29,9 @@ public class GraphicalUI {
     private VocabularyFileSystem fileTool;
     private VocabularyQuizList quiz;
     private String filename = "vocabularyData.txt";
+    private BackGroundMusic bgm;
+    private String bgiPath;
+
 
     public GraphicalUI() {
         frame = new JFrame();
@@ -33,18 +46,22 @@ public class GraphicalUI {
         try {
             fileTool = new VocabularyFileSystem(vocabularyList, filename);
         } catch (IOException e) {
+            e.printStackTrace();
             JOptionPane.showMessageDialog(frame,"Fail to connect with your file system.",
                     "File System Error", JOptionPane.ERROR_MESSAGE);
-        }
-        try {
-            fileTool.load();
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(frame,"Fail to load file data into your vocabulary list.",
-                        "Loading Error", JOptionPane.ERROR_MESSAGE);
         }
 
         guiAssist = new GraphicalUIAssist(this, vocabularyList);
         quiz = new VocabularyQuizList(vocabularyList);
+
+        try {
+            bgm = new BackGroundMusic("bgm_2.wav");
+            bgiPath = makePath("background_image5.jpg");
+        } catch (Throwable e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(frame,"Fail to connect with your file system.",
+                    "File System Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     public JFrame getFrame() {
@@ -59,8 +76,20 @@ public class GraphicalUI {
         return constraints;
     }
 
-    public VocabularyFileSystem getFileTool() {
-        return fileTool;
+    public VocabularyQuizList getQuiz() {
+        return quiz;
+    }
+
+    public GraphicalUIAssist getGuiAssist() {
+        return guiAssist;
+    }
+
+    public BackGroundMusic getBgm() {
+        return bgm;
+    }
+
+    public String makePath(String filename) throws IOException {
+        return bgm.makePath(filename);
     }
 
     // EFFECTS: set up basic frame format
@@ -69,7 +98,7 @@ public class GraphicalUI {
         if (!(panel == null)) {
             frame.remove(panel);
         }
-        panel = new JPanel(new GridBagLayout());
+        panel = new ImagePanel(new GridBagLayout(), bgiPath);
         frame.add(panel);
     }
 
@@ -77,15 +106,35 @@ public class GraphicalUI {
     // EFFECTS: save vocabulary list to file
     public void save() {
         try {
-            fileTool.flushFile();
             fileTool.save();
             JOptionPane.showMessageDialog(frame,
                     "Succeed to save your vocabulary list.");
         } catch (IOException err) {
+            err.printStackTrace();
             JOptionPane.showMessageDialog(frame,
                     "Fail to save your vocabulary list in a file.",
                     "Save Error",
                     JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: load file data to vocabulary list
+    public void load() {
+        try {
+            if (vocabularyList.size() > 0) {
+                throw new InvalidLoadException("Vocabularies already exist in list");
+            }
+            fileTool.load();
+            fileTool.flushFile();
+            JOptionPane.showMessageDialog(frame,
+                    "Succeed to load your vocabulary data.");
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(frame,"Fail to load file data into your vocabulary list.",
+                    "Loading Error", JOptionPane.ERROR_MESSAGE);
+        } catch (InvalidLoadException e) {
+            JOptionPane.showMessageDialog(frame, e.getMessage(),
+                    "Loading Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -119,6 +168,7 @@ public class GraphicalUI {
         guiAssist.homeTitle();
         guiAssist.homeCommand();
         frame.setVisible(true);
+        bgm.play();
     }
 
     // MODIFIES: this
@@ -153,7 +203,18 @@ public class GraphicalUI {
     // MODIFIES: this
     // EFFECTS: showing quiz page
     public void quiz() {
-
+        try {
+            quiz.makeQuizList();
+            QuizRunnerGraphicalUI quizRunner = new QuizRunnerGraphicalUI(this);
+            setUp();;
+            quizRunner.instruction();
+            frame.setVisible(true);
+        } catch (NotEnoughVocabularyException e) {
+            JOptionPane.showMessageDialog(frame,
+                    "At least 10 unremembered vocabularies are needed.",
+                    "Quiz Error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     public void main() {

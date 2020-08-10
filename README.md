@@ -20,7 +20,7 @@ Just run main method in Main class
 
 ## User Stories
 In the context of *Vocabulary Master* application:
-- As a user, I want to be able to add a word or an idiom with its meaning to my vocabulary list.
+- As a user, I want to be able to add a word, or an idiom with its meaning to my vocabulary list.
 - As a user, I want to be able to add multiple words and idioms to my vocabulary list.
 - As a user, I want to be able to view the list of my vocabulary.
 - As a user, I want to be able to mark a word and idiom as remembered on my vocabulary list.
@@ -29,7 +29,17 @@ In the context of *Vocabulary Master* application:
 - As a user, I want to be able to save my vocabulary list
 - As a user, I want to be able to load my vocabulary list from a file when the program starts
 - As a user, when I select the quit option from the application menu, I want the option to save my vocabulary list to file. 
-- (option) As a user, I want to be able to search a word or an idiom among the list of my vocabulary.
-- (option) As a user, I want to be able to attach labels to each word and idiom.
-- (option) As a user, I want to be able to view my vocabulary list of the same tag.
-- (option) As a user, I want to be able to play spell test game.
+- (if possible) As a user, I want to be able to search a word or an idiom among the list of my vocabulary.
+
+## Instructions for Grader
+- You can generate to add vocabulary by clicking "add" button on home page.<br>
+Next, you write your vocabulary and its meaning then press "register" button to add them to your list.<br>
+Also, you can add multiple words and idioms divided by comma.
+- You can generate to see vocabulary list by clicking "list" button on home page.<br>
+Then, you can see detail of a word or idiom if you select one and push "detail" button.<br>
+On detail page, you can choose to delete or mark as remeber(or forget) to the vocabulary.
+- You can do vocabulary quiz by clicking "quiz" button on home page.
+- You can trigger my audio component by pressing any command button. (eg: "add", "list", "home", "detail", etc)
+- You can save the state of your vocabulary list by clicking "save" button on list page or<br>
+choosing "yes" when you exit from application.
+- You can load the file data to vocabulary list by pushing "load" button on home page.

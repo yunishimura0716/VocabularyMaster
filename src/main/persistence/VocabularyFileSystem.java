@@ -31,13 +31,15 @@ public class VocabularyFileSystem {
 
     // EFFECTS: save the vocabulary list into a file
     public void save() throws IOException {
-        FileWriter fw = new FileWriter(file);
+        FileWriter fw = new FileWriter(file, true);
+        BufferedWriter bw = new BufferedWriter(fw);
         for (int i = 0; i < vocabularyList.size(); i++) {
             Vocabulary v = vocabularyList.view(i);
             String fileContent = String.format("%s,%s,%s\n",
                     v.getVocab(), v.getMeaning(), Boolean.toString(v.isRemember()));
-            fw.write(fileContent);
+            bw.write(fileContent);
         }
+        bw.close();
         fw.close();
     }
 
