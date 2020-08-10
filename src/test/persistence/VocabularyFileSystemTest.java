@@ -75,5 +75,17 @@ public class VocabularyFileSystemTest {
             assertEquals(vocabularyList.view(i).getMeaning(), newList.view(i).getMeaning());
             assertEquals(vocabularyList.view(i).isRemember(), newList.view(i).isRemember());
         }
+
+        try {
+            fileTool.load();
+        } catch (IOException e) {
+            fail("Fail to load data");
+        }
+        assertEquals(vocabularyList.size(), newList.size());
+        for (int i = 0; i < 5; i++) {
+            assertEquals(vocabularyList.view(i).getVocab(), newList.view(i).getVocab());
+            assertEquals(vocabularyList.view(i).getMeaning(), newList.view(i).getMeaning());
+            assertEquals(vocabularyList.view(i).isRemember(), newList.view(i).isRemember());
+        }
     }
 }

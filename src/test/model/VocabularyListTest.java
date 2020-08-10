@@ -60,5 +60,8 @@ public class VocabularyListTest {
         assertEquals(8, vocabularyList.size());
         assertEquals("vocab3", vocabulary.getVocab());
         assertEquals("vocab4", vocabularyList.view(2).getVocab());
+
+        vocabularyList.deleteAll();
+        assertEquals(0, vocabularyList.size());
     }
 }

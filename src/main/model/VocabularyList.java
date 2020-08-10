@@ -44,6 +44,15 @@ public class VocabularyList {
         return  vocabulary;
     }
 
+    // MODIFIES: this
+    // EFFECTS: delete all vocabularies in the list
+    public void deleteAll() {
+        int length = size();
+        for (int i = 0; i < length; i++) {
+            delete(0);
+        }
+    }
+
     // EFFECTS: return size of vocabulary list
     public int size() {
         return vocabList.size();

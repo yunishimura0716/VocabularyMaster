@@ -104,33 +104,44 @@ public class GraphicalUI {
     // MODIFIES: this
     // EFFECTS: save vocabulary list to file
     public void save() {
-        try {
-            fileTool.save();
-            JOptionPane.showMessageDialog(frame,
-                    "Succeed to save your vocabulary list.");
-        } catch (IOException err) {
-            err.printStackTrace();
-            JOptionPane.showMessageDialog(frame,
-                    "Fail to save your vocabulary list in a file.",
-                    "Save Error",
-                    JOptionPane.ERROR_MESSAGE);
+        int n = JOptionPane.showConfirmDialog(frame,
+                "If you save this list, you substitute this for current file data.\n"
+                        + "Would you like to save your vocabulary?",
+                "Confirm Message",
+                JOptionPane.YES_NO_OPTION);
+        if (n == 0) {
+            try {
+                fileTool.flushFile();
+                fileTool.save();
+                JOptionPane.showMessageDialog(frame,
+                        "Succeed to save your vocabulary list.");
+            } catch (IOException err) {
+                err.printStackTrace();
+                JOptionPane.showMessageDialog(frame,
+                        "Fail to save your vocabulary list in a file.",
+                        "Save Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
         }
     }
 
     // MODIFIES: this
     // EFFECTS: load file data to vocabulary list
     public void load() {
-        try {
-            if (vocabularyList.size() > 0) {
-                throw new IOException();
+        int n = JOptionPane.showConfirmDialog(frame,
+                "If you load the file data, you substitute it for current list.\n"
+                        + "Would you like to load file data?",
+                "Confirm Message",
+                JOptionPane.YES_NO_OPTION);
+        if (n == 0) {
+            try {
+                fileTool.load();
+                JOptionPane.showMessageDialog(frame,
+                        "Succeed to load your vocabulary data.");
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(frame, "Fail to load file data into your vocabulary list.",
+                        "Loading Error", JOptionPane.ERROR_MESSAGE);
             }
-            fileTool.load();
-            fileTool.flushFile();
-            JOptionPane.showMessageDialog(frame,
-                    "Succeed to load your vocabulary data.");
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(frame,"Fail to load file data into your vocabulary list.",
-                    "Loading Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
