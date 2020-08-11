@@ -1,12 +1,20 @@
 package ui.assist;
 
 
+import model.Vocabulary;
+import model.VocabularyList;
+import ui.ConsoleUI;
+
 /*
 Collection of CUI tool to display instructions
  */
 public class ConsoleUIAssist {
+    private ConsoleUI cui;
+    private VocabularyList vocabularyList;
 
-    public ConsoleUIAssist() {
+    public ConsoleUIAssist(ConsoleUI cui, VocabularyList vocabularyList) {
+        this.cui = cui;
+        this.vocabularyList = vocabularyList;
     }
 
     // EFFECTS: print to remind user of giving invalid input
@@ -15,8 +23,53 @@ public class ConsoleUIAssist {
         System.out.println("    Please give valid input\n");
     }
 
+    // MODIFIES: this.cui
+    // EFFECTS: set page number based request number
+    public void homeRequest(int page) {
+        if (page == 0) {
+            cui.save();
+            cui.setPageNum(5);
+        } else if (page == 3) {
+            cui.setPageNum(4);
+        } else  {
+            cui.setPageNum(page);
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: set page number based request number
+    public void listRequest(int requestNum) {
+        if (requestNum == 0) {
+            cui.setPageNum(0);
+        } else if (requestNum == -1) {
+            cui.save();
+        } else {
+            cui.setPageNum(3);
+            cui.setVocabNum(requestNum);
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: set page number based request num
+    public void detailRequest(int requestNum) {
+        if (requestNum == 0) {
+            cui.setPageNum(requestNum);
+        } else if (requestNum == 1) {
+            cui.setPageNum(requestNum);
+        } else if (requestNum == 2) {
+            vocabularyList.delete(cui.getVocabNum() - 1);
+            cui.setPageNum(1);
+        } else if (requestNum == 3) {
+            vocabularyList.view(cui.getVocabNum() - 1).setRemember(true);
+            cui.setPageNum(1);
+        } else {
+            vocabularyList.view(cui.getVocabNum() - 1).setRemember(false);
+            cui.setPageNum(1);
+        }
+    }
+
     // EFFECTS: print title for home page
-    public static void homeTitle() {
+    public static void homeHead() {
         System.out.println("\n\n------------------------------------------");
         System.out.println("|          Vocabulary Master             |");
     }
@@ -29,6 +82,21 @@ public class ConsoleUIAssist {
         System.out.println("         1: list of Vocabulary");
         System.out.println("         2: add words and idioms");
         System.out.println("         3: vocabulary quiz\n\n\n");
+    }
+
+    // EFFECTS: list the vocabularies
+    public void listHead() {
+        System.out.println("\n-----------------------------------------------------");
+        System.out.println("No | vocabulary (remember or not remember)");
+        System.out.println("   | meaning");
+        System.out.println("------------------------------------------------------");
+        for (int i = 0; i < vocabularyList.size(); i++) {
+            System.out.println("------------------------------------------------------");
+            int vocabNum = i + 1;
+            String isRemember = vocabularyList.view(i).isRemember() ? "(remember)" : "(not remember)";
+            System.out.printf("%-3d| %s %s\n", vocabNum, vocabularyList.view(i).getVocab(), isRemember);
+            System.out.printf("   | %s\n", vocabularyList.view(i).getMeaning());
+        }
     }
 
     // EFFECTS: print command menu for list page
@@ -65,6 +133,20 @@ public class ConsoleUIAssist {
         System.out.println("            Word or Idiom: word1, idiom1, word2");
         System.out.println("            Meaning: meaning1, meaning2, meaning3\n");
         System.out.println("    (Enter 0 if you finish)\n\n");
+    }
+
+    // REQUIRES: vocabNum >= 1
+    // EFFECTS: show detail of vocabulary
+    public void detailHead(int vocabNum) {
+        System.out.println("\n--------------------------------------------------------");
+        int i = vocabNum - 1;
+        String isRemember = vocabularyList.view(i).isRemember() ? "(remember)" : "(not remember)";
+        System.out.println("No | vocabulary (remember or not remember)");
+        System.out.println("   | meaning");
+        System.out.println("--------------------------------------------------------");
+        System.out.printf("%-3d| %s %s\n", vocabNum, vocabularyList.view(i).getVocab(), isRemember);
+        System.out.printf("   | %s\n", vocabularyList.view(i).getMeaning());
+        System.out.println("--------------------------------------------------------");
     }
 
     // EFFECTS: print command menu for detail page

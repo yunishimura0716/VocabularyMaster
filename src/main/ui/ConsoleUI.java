@@ -1,10 +1,6 @@
 package ui;
 
 import exceptions.NotEnoughVocabularyException;
-import model.Vocabulary;
-import model.VocabularyList;
-import persistence.VocabularyFileSystem;
-import model.VocabularyQuizList;
 import ui.assist.ConsoleUIAssist;
 import ui.assist.QuizRunnerConsoleUI;
 
@@ -14,84 +10,29 @@ import java.util.*;
 /*
 console user interface application for English Vocabulary Master
  */
-public class ConsoleUI {
-    private VocabularyList vocabularyList;
-    private ConsoleUIAssist cuiTool;
+public class ConsoleUI extends UserInterface {
+    private ConsoleUIAssist cuiAssist;
     private int pageNum = 0;  // 0: home page, 1: listing page // 2: add page // 3: detail page
     private int vocabNum;
     Scanner input;
-    private String filename = "vocabularyData.txt";
-    private VocabularyFileSystem fileTool;
-    private VocabularyQuizList quiz;
 
     // EFFECTS: make user's vocabulary list (next phase: loaded file from storage)
-    public ConsoleUI() {
-        vocabularyList = new VocabularyList();
+    public ConsoleUI() throws IOException {
+        super();
+
         input = new Scanner(System.in);
-        cuiTool = new ConsoleUIAssist();
-        try {
-            fileTool = new VocabularyFileSystem(vocabularyList, filename);
-        } catch (IOException e) {
-            System.out.println("Fail to connect with your file system");
-        }
+        cuiAssist = new ConsoleUIAssist(this, vocabularyList);
+
         try {
             fileTool.load();
         } catch (IOException e) {
             System.out.println("Fail to load data");
         }
-        quiz = new VocabularyQuizList(vocabularyList);
     }
 
-    // MODIFIES: this
-    // EFFECTS: add vocabularies into list
-    public boolean post(String vocabs, String meanings) {
-        String[] vocablist = {vocabs};
-        String[] meaninglist = {meanings};
-        if (vocabs.contains(",")) {
-            vocablist = vocabs.split("\\s*,\\s*");
-        }
-        if (meanings.contains(",")) {
-            meaninglist = meanings.split("\\s*,\\s*");
-        }
-        if (vocablist.length == meaninglist.length) {
-            for (int i = 0; i < vocablist.length; i++) {
-                Vocabulary vocabulary = new Vocabulary(vocablist[i], meaninglist[i]);
-                vocabularyList.add(vocabulary);
-            }
-            return true;
-        } else {
-            return false;
-        }
-
-    }
-
-    // EFFECTS: list the vocabularies
-    public void list() {
-        System.out.println("\n-----------------------------------------------------");
-        System.out.println("No | vocabulary (remember or not remember)");
-        System.out.println("   | meaning");
-        System.out.println("------------------------------------------------------");
-        for (int i = 0; i < vocabularyList.size(); i++) {
-            System.out.println("------------------------------------------------------");
-            int vocabNum = i + 1;
-            String isRemember = vocabularyList.view(i).isRemember() ? "(remember)" : "(not remember)";
-            System.out.printf("%-3d| %s %s\n", vocabNum, vocabularyList.view(i).getVocab(), isRemember);
-            System.out.printf("   | %s\n", vocabularyList.view(i).getMeaning());
-        }
-    }
-
-    // REQUIRES: vocabNum >= 1
-    // EFFECTS: show detail of vocabulary
-    public void detail(int vocabNum) {
-        System.out.println("\n--------------------------------------------------------");
-        int i = vocabNum - 1;
-        String isRemember = vocabularyList.view(i).isRemember() ? "(remember)" : "(not remember)";
-        System.out.println("No | vocabulary (remember or not remember)");
-        System.out.println("   | meaning");
-        System.out.println("--------------------------------------------------------");
-        System.out.printf("%-3d| %s %s\n", vocabNum, vocabularyList.view(i).getVocab(), isRemember);
-        System.out.printf("   | %s\n", vocabularyList.view(i).getMeaning());
-        System.out.println("--------------------------------------------------------");
+    // EFFECTS: get vocabulary number
+    public int getVocabNum() {
+        return vocabNum;
     }
 
     // EFFECTS: get the value of page number
@@ -105,8 +46,13 @@ public class ConsoleUI {
         pageNum = p;
     }
 
+    public void setVocabNum(int n) {
+        vocabNum = n;
+    }
+
     // MODiFIES: this
     // EFFECTS: refresh the file and save vocabulary list into file
+    @Override
     public void save() {
         try {
             fileTool.flushFile();
@@ -117,27 +63,16 @@ public class ConsoleUI {
         }
     }
 
-    // EFFECTS: set page number based request number
-    private void homeRequest(int page) {
-        if (page == 0) {
-            save();
-            setPageNum(5);
-        } else if (page == 3) {
-            setPageNum(4);
-        } else  {
-            setPageNum(page);
-        }
-    }
-
     // MODIFIES: this
     // EFFECTS: showing home page on console
-    public void homePage() {
-        cuiTool.homeTitle();
+    @Override
+    public void home() {
+        cuiAssist.homeHead();
         int page = 0;
         boolean inputFail = true;
         while (inputFail) {
             try {
-                cuiTool.homeCommand();
+                cuiAssist.homeCommand();
                 page = Integer.parseInt(input.nextLine()); // 0: exit, 1: list, 2: add, 3: quiz
                 if (page < 0 || 3 < page) {
                     throw new NumberFormatException();
@@ -145,30 +80,18 @@ public class ConsoleUI {
                     inputFail = false;
                 }
             } catch (NumberFormatException e) {
-                cuiTool.invalidInput();
+                cuiAssist.invalidInput();
             }
         }
-        homeRequest(page);
-    }
-
-    // MODIFIES: this
-    // EFFECTS: set page number based request number
-    private void listRequest(int requestNum) {
-        if (requestNum == 0) {
-            setPageNum(0);
-        } else if (requestNum == -1) {
-            save();
-        } else {
-            setPageNum(3);
-            vocabNum = requestNum;
-        }
+        cuiAssist.homeRequest(page);
     }
 
     // MODIFIES: this
     // EFFECTS: showing list page on console
-    public void listPage() {
-        list();
-        cuiTool.listCommand();
+    @Override
+    public void list() {
+        cuiAssist.listHead();
+        cuiAssist.listCommand();
         boolean inputFail = true;
         int requestNum = 0;
         while (inputFail) {
@@ -180,19 +103,20 @@ public class ConsoleUI {
                     inputFail = false;
                 }
             } catch (InputMismatchException e) {
-                cuiTool.invalidInput();
+                cuiAssist.invalidInput();
                 input.nextLine();
-                cuiTool.listCommand();
+                cuiAssist.listCommand();
             }
         }
-        listRequest(requestNum);
+        cuiAssist.listRequest(requestNum);
         input.nextLine();
     }
 
     // MODIFIES: this
     // EFFECTS: showing adding page on console
-    public void addPage() {
-        cuiTool.addCommand();
+    @Override
+    public void add() {
+        cuiAssist.addCommand();
 
         do {
             System.out.print("Word or Idiom: ");
@@ -208,35 +132,17 @@ public class ConsoleUI {
                 if (!success) {
                     System.out.println("Error: The number of vocabularies and meanings is different!");
                 }
-                cuiTool.addMore();
+                cuiAssist.addMore();
             }
         } while (true);
     }
 
     // MODIFIES: this
-    // EFFECTS: set page number based request num
-    private void detailRequest(int requestNum) {
-        if (requestNum == 0) {
-            setPageNum(requestNum);
-        } else if (requestNum == 1) {
-            setPageNum(requestNum);
-        } else if (requestNum == 2) {
-            vocabularyList.delete(vocabNum - 1);
-            setPageNum(1);
-        } else if (requestNum == 3) {
-            vocabularyList.view(vocabNum - 1).setRemember(true);
-            setPageNum(1);
-        } else {
-            vocabularyList.view(vocabNum - 1).setRemember(false);
-            setPageNum(1);
-        }
-    }
-
-    // MODIFIES: this
     // EFFECTS: showing detail page, user can delete or mark as remember
-    public void detailPage(int vocabNum) {
-        detail(vocabNum);
-        cuiTool.detailCommand();
+    @Override
+    public void detail(int vocabNum) {
+        cuiAssist.detailHead(vocabNum);
+        cuiAssist.detailCommand();
         int requestNum = 0;
         boolean inputFail = true;
         while (inputFail) {
@@ -248,17 +154,18 @@ public class ConsoleUI {
                     inputFail = false;
                 }
             } catch (InputMismatchException e) {
-                cuiTool.invalidInput();
+                cuiAssist.invalidInput();
                 input.nextLine();
-                detail(vocabNum);
-                cuiTool.detailCommand();
+                cuiAssist.detailHead(vocabNum);
+                cuiAssist.detailCommand();
             }
         }
-        detailRequest(requestNum);
+        cuiAssist.detailRequest(requestNum);
     }
 
     // EFFECTS: showing vocabulary quiz page
-    public void vocabularyQuizPage() {
+    @Override
+    public void quiz() {
         try {
             quiz.makeQuizList();
 
@@ -275,15 +182,15 @@ public class ConsoleUI {
     public void main() {
         while (true) {
             if (this.getPageNum() == 0) {
-                this.homePage();
+                this.home();
             } else if (this.getPageNum() == 1) {
-                this.listPage();
+                this.list();
             } else if (this.getPageNum() == 2) {
-                this.addPage();
+                this.add();
             } else if (this.getPageNum() == 3) {
-                this.detailPage(vocabNum);
+                this.detail(vocabNum);
             } else if (this.getPageNum() == 4) {
-                this.vocabularyQuizPage();
+                this.quiz();
             } else {
                 System.exit(0);
             }

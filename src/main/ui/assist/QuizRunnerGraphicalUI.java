@@ -44,7 +44,7 @@ public class QuizRunnerGraphicalUI {
         b.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                gui.getGuiAssist().buttonEffect.play();
+                gui.getButtonEffect().play();
                 currentQuiz = 0;
                 totalCorrect = 0;
                 showNextQuestion();
@@ -95,11 +95,11 @@ public class QuizRunnerGraphicalUI {
     // EFFECTS: showing submit button and check answer
     public void submitAnswerListener(JButton b, HashMap<String, Integer> choiceTable,
                                      ButtonGroup bg, QuizCheckerTool checker, VocabularyQuiz q) {
-        gui.getGuiAssist().buttonEffect.play();
+        gui.getButtonEffect().play();
         b.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                gui.getGuiAssist().buttonEffect.play();
+                gui.getButtonEffect().play();
                 try {
                     String answerText = bg.getSelection().getActionCommand();
                     int answer = choiceTable.get(answerText);

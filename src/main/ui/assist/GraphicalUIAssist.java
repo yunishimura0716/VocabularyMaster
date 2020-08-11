@@ -14,16 +14,10 @@ import java.util.ArrayList;
 public class GraphicalUIAssist {
     private GraphicalUI gui;
     private VocabularyList vocabList;
-    public ButtonEventMusic buttonEffect;
 
     public GraphicalUIAssist(GraphicalUI gui, VocabularyList vocabList) {
         this.gui = gui;
         this.vocabList = vocabList;
-        try {
-            buttonEffect = new ButtonEventMusic("button_event3.wav");
-        } catch (Throwable e) {
-            e.printStackTrace();
-        }
     }
 
     //EFFECTS: add action listener to exit
@@ -31,7 +25,7 @@ public class GraphicalUIAssist {
         b.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                buttonEffect.play();
+                gui.getButtonEffect().play();
                 int n = JOptionPane.showConfirmDialog(
                         gui.getFrame(),
                         "Would you like to save your vocabulary?",
@@ -53,7 +47,7 @@ public class GraphicalUIAssist {
         b.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                buttonEffect.play();
+                gui.getButtonEffect().play();
                 gui.list();
             }
         });
@@ -65,7 +59,7 @@ public class GraphicalUIAssist {
         b.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                buttonEffect.play();
+                gui.getButtonEffect().play();
                 // yes: 0, no: 1
                 int n = JOptionPane.showConfirmDialog(
                         gui.getFrame(),
@@ -89,7 +83,7 @@ public class GraphicalUIAssist {
         b.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                buttonEffect.play();
+                gui.getButtonEffect().play();
                 vocabList.view(index).setRemember(isRemember);
                 gui.detail(index);
             }
@@ -101,7 +95,7 @@ public class GraphicalUIAssist {
         b.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                buttonEffect.play();
+                gui.getButtonEffect().play();
                 gui.add();
             }
         });
@@ -112,7 +106,7 @@ public class GraphicalUIAssist {
         b.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                buttonEffect.play();
+                gui.getButtonEffect().play();
                 String vocabularies = textFields.get(0).getText();
                 String meanings = textFields.get(1).getText();
                 if (vocabularies.equals("") || meanings.equals("")) {
@@ -139,7 +133,7 @@ public class GraphicalUIAssist {
         b.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                buttonEffect.play();
+                gui.getButtonEffect().play();
                 gui.quiz();
             }
         });
@@ -150,7 +144,7 @@ public class GraphicalUIAssist {
         b.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                buttonEffect.play();
+                gui.getButtonEffect().play();
                 int[] indices = list.getSelectedIndices();
                 if (indices.length == 0 || indices.length > 1) {
                     JOptionPane.showMessageDialog(gui.getFrame(),
@@ -170,7 +164,7 @@ public class GraphicalUIAssist {
         b.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                buttonEffect.play();
+                gui.getButtonEffect().play();
                 gui.save();
             }
         });
@@ -181,7 +175,7 @@ public class GraphicalUIAssist {
         b.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                buttonEffect.play();
+                gui.getButtonEffect().play();
                 gui.load();
             }
         });
@@ -192,7 +186,7 @@ public class GraphicalUIAssist {
         b.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                buttonEffect.play();
+                gui.getButtonEffect().play();
                 gui.home();
             }
         });

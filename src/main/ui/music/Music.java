@@ -7,12 +7,10 @@ import java.io.IOException;
 public abstract class Music {
     protected Clip clip;
     protected AudioInputStream inputStream;
+    protected String filepath;
 
-    public Music(String filename) throws IOException, LineUnavailableException, UnsupportedAudioFileException {
-        String filepath = makePath(filename);
-        clip = AudioSystem.getClip();
-        inputStream = AudioSystem.getAudioInputStream(new File(filepath).getAbsoluteFile());
-        clip.open(inputStream);
+    public Music(String filename) throws IOException {
+        filepath = makePath(filename);
     }
 
     // EFFECTS: create file path to get in data directory
@@ -22,6 +20,17 @@ public abstract class Music {
         return filepath;
     }
 
-    // EFFECTS: play ui.music
-    public abstract void play() throws IOException;
+    // EFFECTS: open clip of audio system
+    public void openClip() {
+        try {
+            clip = AudioSystem.getClip();
+            inputStream = AudioSystem.getAudioInputStream(new File(filepath).getAbsoluteFile());
+            clip.open(inputStream);
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
+    }
+
+    // EFFECTS: play music
+    public abstract void play();
 }

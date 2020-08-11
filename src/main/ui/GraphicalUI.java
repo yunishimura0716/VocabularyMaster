@@ -9,6 +9,7 @@ import ui.assist.GraphicalUIAssist;
 import ui.assist.QuizRunnerGraphicalUI;
 import ui.image.ImagePanel;
 import ui.music.BackGroundMusic;
+import ui.music.ButtonEventMusic;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,20 +20,18 @@ import java.util.ArrayList;
 /*
 Class provide graphical user interface
  */
-public class GraphicalUI {
+public class GraphicalUI extends UserInterface {
     private JFrame frame;
     private JPanel panel;
     private GridBagConstraints constraints;
     private GraphicalUIAssist guiAssist;
-    private VocabularyList vocabularyList;
-    private VocabularyFileSystem fileTool;
-    private VocabularyQuizList quiz;
-    private String filename = "vocabularyData.txt";
     private BackGroundMusic bgm;
+    public ButtonEventMusic buttonEffect;
     private String bgiPath;
 
 
-    public GraphicalUI() {
+    public GraphicalUI() throws IOException {
+        super();
         frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(1000, 600);
@@ -40,22 +39,12 @@ public class GraphicalUI {
         constraints = new GridBagConstraints();
         constraints.anchor = GridBagConstraints.WEST;
 
-        vocabularyList = new VocabularyList();
-
-        try {
-            fileTool = new VocabularyFileSystem(vocabularyList, filename);
-        } catch (IOException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(frame,"Fail to connect with your file system.",
-                    "File System Error", JOptionPane.ERROR_MESSAGE);
-        }
-
         guiAssist = new GraphicalUIAssist(this, vocabularyList);
-        quiz = new VocabularyQuizList(vocabularyList);
 
         try {
             bgm = new BackGroundMusic("bgm_2.wav");
             bgiPath = makePath("background_image5.jpg");
+            buttonEffect = new ButtonEventMusic("button_event3.wav");
         } catch (Throwable e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(frame,"Fail to connect with your file system.",
@@ -75,16 +64,16 @@ public class GraphicalUI {
         return constraints;
     }
 
-    public VocabularyQuizList getQuiz() {
-        return quiz;
-    }
-
     public GraphicalUIAssist getGuiAssist() {
         return guiAssist;
     }
 
     public BackGroundMusic getBgm() {
         return bgm;
+    }
+
+    public ButtonEventMusic getButtonEffect() {
+        return buttonEffect;
     }
 
     public String makePath(String filename) throws IOException {
@@ -103,6 +92,7 @@ public class GraphicalUI {
 
     // MODIFIES: this
     // EFFECTS: save vocabulary list to file
+    @Override
     public void save() {
         int n = JOptionPane.showConfirmDialog(frame,
                 "If you save this list, you substitute this for current file data.\n"
@@ -146,30 +136,8 @@ public class GraphicalUI {
     }
 
     // MODIFIES: this
-    // EFFECTS: add vocabularies into list
-    public boolean post(String vocabs, String meanings) {
-        String[] vocablist = {vocabs};
-        String[] meaninglist = {meanings};
-        if (vocabs.contains(",")) {
-            vocablist = vocabs.split("\\s*,\\s*");
-        }
-        if (meanings.contains(",")) {
-            meaninglist = meanings.split("\\s*,\\s*");
-        }
-        if (vocablist.length == meaninglist.length) {
-            for (int i = 0; i < vocablist.length; i++) {
-                Vocabulary vocabulary = new Vocabulary(vocablist[i], meaninglist[i]);
-                vocabularyList.add(vocabulary);
-            }
-            return true;
-        } else {
-            return false;
-        }
-
-    }
-
-    // MODIFIES: this
     // EFFECTS: showing howe page
+    @Override
     public void home() {
         setUp();
         guiAssist.homeTitle();
@@ -180,6 +148,7 @@ public class GraphicalUI {
 
     // MODIFIES: this
     // EFFECTS: showing list page
+    @Override
     public void list() {
         setUp();
         guiAssist.listHead();
@@ -189,6 +158,8 @@ public class GraphicalUI {
     }
 
     // MODIFIES: this
+    // EFFECTS: showing detail page
+    @Override
     public void detail(int index) {
         setUp();
         guiAssist.detailHead();
@@ -199,6 +170,7 @@ public class GraphicalUI {
 
     // MODIFIES: this
     // EFFECTS: showing add page
+    @Override
     public void add() {
         setUp();
         guiAssist.addHead();
@@ -209,6 +181,7 @@ public class GraphicalUI {
 
     // MODIFIES: this
     // EFFECTS: showing quiz page
+    @Override
     public void quiz() {
         try {
             quiz.makeQuizList();
