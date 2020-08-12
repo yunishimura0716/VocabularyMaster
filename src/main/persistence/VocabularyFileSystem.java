@@ -53,7 +53,11 @@ public class VocabularyFileSystem {
     public void load() throws IOException {
         FileReader fr = new FileReader(file);
         BufferedReader br = new BufferedReader(fr);
-        vocabularyList.deleteAll();
+        try {
+            vocabularyList.deleteAll();
+        } catch (VocabularyListBoundsException e) {
+            System.out.println(e.getMessage());
+        }
         String fileContent;
         while ((fileContent = br.readLine()) != null) {
             String[] vocabList = fileContent.split(",");

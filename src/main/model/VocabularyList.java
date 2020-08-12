@@ -52,14 +52,10 @@ public class VocabularyList extends Vocabulary {
 
     // MODIFIES: this
     // EFFECTS: delete all vocabularies in the list
-    public void deleteAll() {
+    public void deleteAll() throws VocabularyListBoundsException {
         int length = size();
         for (int i = 0; i < length; i++) {
-            try {
-                delete(0);
-            } catch (VocabularyListBoundsException e) {
-                e.printStackTrace();
-            }
+            delete(0);
         }
     }
 

@@ -66,6 +66,12 @@ public class VocabularyListTest {
         } catch (VocabularyListBoundsException e) {
             // do nothing
         }
+        try {
+            vocabulary = vocabularyList.view(-1);
+            fail("Fail to cast exception");
+        } catch (VocabularyListBoundsException e) {
+            // do nothing
+        }
     }
 
     @Test
@@ -95,7 +101,11 @@ public class VocabularyListTest {
             fail("Fail to delete vocabulary");
         }
 
-        vocabularyList.deleteAll();
+        try {
+            vocabularyList.deleteAll();
+        } catch (VocabularyListBoundsException e) {
+            fail("Fail to delete all");
+        }
         assertEquals(0, vocabularyList.size());
     }
 
@@ -109,7 +119,13 @@ public class VocabularyListTest {
         Vocabulary vocabulary;
         try {
             vocabulary = vocabularyList.delete(10);
-            fail("Fail to delete vocabulary");
+            fail("Fail to cast exception");
+        } catch (VocabularyListBoundsException e) {
+            // do nothing
+        }
+        try {
+            vocabulary = vocabularyList.delete(-1);
+            fail("Fail to cast exception");
         } catch (VocabularyListBoundsException e) {
             // do nothing
         }
