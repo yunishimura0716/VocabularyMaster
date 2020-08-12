@@ -112,6 +112,8 @@ public class GraphicalUI extends UserInterface {
                         "Fail to save your vocabulary list in a file.",
                         "Save Error",
                         JOptionPane.ERROR_MESSAGE);
+            } catch (VocabularyListBoundsException e) {
+                e.printStackTrace();
             }
         }
     }
@@ -132,6 +134,8 @@ public class GraphicalUI extends UserInterface {
             } catch (IOException e) {
                 JOptionPane.showMessageDialog(frame, "Fail to load file data into your vocabulary list.",
                         "Loading Error", JOptionPane.ERROR_MESSAGE);
+            } catch (VocabularyListBoundsException e) {
+                e.printStackTrace();
             }
         }
     }

@@ -30,19 +30,15 @@ public class VocabularyFileSystem {
     }
 
     // EFFECTS: save the vocabulary list into a file
-    public void save() throws IOException {
+    public void save() throws IOException, VocabularyListBoundsException {
         FileWriter fw = new FileWriter(file, false);
         BufferedWriter bw = new BufferedWriter(fw);
         for (int i = 0; i < vocabularyList.size(); i++) {
             Vocabulary v = null;
-            try {
-                v = vocabularyList.view(i);
-                String fileContent = String.format("%s,%s,%s\n",
-                        v.getVocab(), v.getMeaning(), Boolean.toString(v.isRemember()));
-                bw.write(fileContent);
-            } catch (VocabularyListBoundsException e) {
-                e.printStackTrace();
-            }
+            v = vocabularyList.view(i);
+            String fileContent = String.format("%s,%s,%s\n",
+                    v.getVocab(), v.getMeaning(), Boolean.toString(v.isRemember()));
+            bw.write(fileContent);
         }
         bw.close();
         fw.close();
@@ -50,14 +46,10 @@ public class VocabularyFileSystem {
 
     // MODIFIES: this
     // EFFECTS: load vocabulary data into the list
-    public void load() throws IOException {
+    public void load() throws IOException, VocabularyListBoundsException {
         FileReader fr = new FileReader(file);
         BufferedReader br = new BufferedReader(fr);
-        try {
-            vocabularyList.deleteAll();
-        } catch (VocabularyListBoundsException e) {
-            System.out.println(e.getMessage());
-        }
+        vocabularyList.deleteAll();
         String fileContent;
         while ((fileContent = br.readLine()) != null) {
             String[] vocabList = fileContent.split(",");

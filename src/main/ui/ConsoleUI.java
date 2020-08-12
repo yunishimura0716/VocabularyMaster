@@ -28,6 +28,8 @@ public class ConsoleUI extends UserInterface {
             fileTool.load();
         } catch (IOException e) {
             System.out.println("Fail to load data");
+        } catch (VocabularyListBoundsException e) {
+            e.printStackTrace();
         }
     }
 
@@ -61,6 +63,8 @@ public class ConsoleUI extends UserInterface {
             System.out.println("\nSucceed to save vocabulary list!\n");
         } catch (IOException e) {
             System.out.println("Fail to update your data");
+        } catch (VocabularyListBoundsException e) {
+            e.printStackTrace();
         }
     }
 

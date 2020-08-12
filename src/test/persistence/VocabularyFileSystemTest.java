@@ -31,6 +31,8 @@ public class VocabularyFileSystemTest {
             fileTool.load();
         } catch (IOException e) {
             fail("Fail to load no data");
+        } catch (VocabularyListBoundsException e) {
+            fail("Fail to load data");
         }
 
         assertEquals(0, vocabularyList.size());
@@ -44,6 +46,8 @@ public class VocabularyFileSystemTest {
             fileTool = new VocabularyFileSystem(newList, filename);
             fileTool.load();
         } catch (IOException e) {
+            fail("Fail to save No data");
+        } catch (VocabularyListBoundsException e) {
             fail("Fail to save No data");
         }
 
@@ -60,12 +64,16 @@ public class VocabularyFileSystemTest {
             fileTool.save();
         } catch (IOException e) {
             fail("Fail to save data");
+        } catch (VocabularyListBoundsException e) {
+            fail("Fail to save data");
         }
         VocabularyList newList = new VocabularyList();
         try {
             fileTool = new VocabularyFileSystem(newList, filename);
             fileTool.load();
         } catch (IOException e) {
+            fail("Fail to load data");
+        } catch (VocabularyListBoundsException e) {
             fail("Fail to load data");
         }
 
@@ -83,6 +91,8 @@ public class VocabularyFileSystemTest {
         try {
             fileTool.load();
         } catch (IOException e) {
+            fail("Fail to load data");
+        } catch (VocabularyListBoundsException e) {
             fail("Fail to load data");
         }
         assertEquals(vocabularyList.size(), newList.size());
