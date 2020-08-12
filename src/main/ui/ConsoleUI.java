@@ -87,16 +87,8 @@ public class ConsoleUI extends UserInterface {
         cuiAssist.homeRequest(page);
     }
 
-    // MODIFIES: this
-    // EFFECTS: showing list page on console
-    @Override
-    public void list() {
-        try {
-            cuiAssist.listHead();
-        } catch (VocabularyListBoundsException e) {
-            System.out.println(e.getMessage());
-        }
-        cuiAssist.listCommand();
+    // EFFECTS: check the input to be valid on list page
+    public int checkInputList() {
         boolean inputFail = true;
         int requestNum = 0;
         while (inputFail) {
@@ -113,6 +105,20 @@ public class ConsoleUI extends UserInterface {
                 cuiAssist.listCommand();
             }
         }
+        return requestNum;
+    }
+
+    // MODIFIES: this
+    // EFFECTS: showing list page on console
+    @Override
+    public void list() {
+        try {
+            cuiAssist.listHead();
+        } catch (VocabularyListBoundsException e) {
+            System.out.println(e.getMessage());
+        }
+        cuiAssist.listCommand();
+        int requestNum = checkInputList();
         cuiAssist.listRequest(requestNum);
         input.nextLine();
     }
@@ -142,16 +148,8 @@ public class ConsoleUI extends UserInterface {
         } while (true);
     }
 
-    // MODIFIES: this
-    // EFFECTS: showing detail page, user can delete or mark as remember
-    @Override
-    public void detail(int vocabNum) {
-        try {
-            cuiAssist.detailHead(vocabNum);
-        } catch (VocabularyListBoundsException e) {
-            System.out.println(e.getMessage());
-        }
-        cuiAssist.detailCommand();
+    // EFFECTS: check input to be valid on dateil page
+    public int checkInputDetail() {
         int requestNum = 0;
         boolean inputFail = true;
         while (inputFail) {
@@ -173,6 +171,20 @@ public class ConsoleUI extends UserInterface {
                 cuiAssist.detailCommand();
             }
         }
+        return requestNum;
+    }
+
+    // MODIFIES: this
+    // EFFECTS: showing detail page, user can delete or mark as remember
+    @Override
+    public void detail(int vocabNum) {
+        try {
+            cuiAssist.detailHead(vocabNum);
+        } catch (VocabularyListBoundsException e) {
+            System.out.println(e.getMessage());
+        }
+        cuiAssist.detailCommand();
+        int requestNum = checkInputDetail();
         try {
             cuiAssist.detailRequest(requestNum);
         } catch (VocabularyListBoundsException e) {
