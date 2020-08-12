@@ -1,5 +1,6 @@
 package model;
 
+import exceptions.VocabularyListBoundsException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -23,7 +24,11 @@ public class VocabularyQuizTest {
     public void makeQuizTest() {
         assertEquals(-1, quiz.getAnswer());
 
-        quiz.makeQuiz(1);
+        try {
+            quiz.makeQuiz(1);
+        } catch (VocabularyListBoundsException e) {
+            fail("Fail to make quiz");
+        }
 
         assertEquals(quiz.NUM_SELECT, quiz.getSelections().size());
         assertEquals("word2", quiz.getVocabulary().getVocab());

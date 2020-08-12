@@ -1,5 +1,7 @@
 package model;
 
+import exceptions.VocabularyListBoundsException;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
@@ -19,9 +21,8 @@ public class VocabularyQuiz {
         selections = new ArrayList<>();
     }
 
-    // REQUIRES: vocabularyNum >= 0
     // MODIFIES: this
-    public void makeQuiz(int vocabularyNum) {
+    public void makeQuiz(int vocabularyNum) throws VocabularyListBoundsException {
         setAnswer((int)(Math.random() * NUM_SELECT));
         setVocabulary(vocabularyList.view(vocabularyNum));
         ArrayList<Integer> indexes = makeIndexes();
@@ -62,7 +63,7 @@ public class VocabularyQuiz {
     // REQUIRES: start >= 0, finish <= NUM_SELECT and start <= finish
     // MODIFIES: this, indexes
     // EFFECTS: make dummy answer and add it to selection
-    public void makeDummy(int start, int finish, ArrayList<Integer> indexes) {
+    public void makeDummy(int start, int finish, ArrayList<Integer> indexes) throws VocabularyListBoundsException {
         for (int i = start; i < finish; i++) {
             int dummyIndex = (int)(Math.random() * indexes.size());
             int dummyVocabularyNum = indexes.get(dummyIndex);

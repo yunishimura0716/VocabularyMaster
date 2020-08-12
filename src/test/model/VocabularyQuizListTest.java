@@ -1,6 +1,7 @@
 package model;
 
 import exceptions.NotEnoughVocabularyException;
+import exceptions.VocabularyListBoundsException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -24,23 +25,36 @@ public class VocabularyQuizListTest {
 
     @Test
     public void failMakeQuizTest() {
-        vocabularyList.view(0).setRemember(true);
-        vocabularyList.view(1).setRemember(true);
+        try {
+            vocabularyList.view(0).setRemember(true);
+            vocabularyList.view(1).setRemember(true);
+        } catch (VocabularyListBoundsException e) {
+            fail("Fail to view vocabulary");
+        }
+
         try {
             quizList.makeQuizList();
             fail("Fail to throw NotEnoughVocabularyException");
         } catch (NotEnoughVocabularyException e) {
             // do nothing
+        } catch (VocabularyListBoundsException e) {
+            fail("Fail to provide proper exception");
         }
     }
 
     @Test
     public void makeQuizListTest() {
-        vocabularyList.view(0).setRemember(true);
+        try {
+            vocabularyList.view(0).setRemember(true);
+        } catch (VocabularyListBoundsException e) {
+            fail("Fail to view vocabulary");
+        }
 
         try {
             quizList.makeQuizList();
         } catch (NotEnoughVocabularyException e) {
+            fail("Fail to make quiz");
+        } catch (VocabularyListBoundsException e) {
             fail("Fail to make quiz");
         }
 
@@ -53,6 +67,10 @@ public class VocabularyQuizListTest {
             vocabListForQuiz.add(quiz.getVocabulary().getVocab());
         }
 
-        assertFalse(vocabListForQuiz.contains(vocabularyList.view(0).getVocab()));
+        try {
+            assertFalse(vocabListForQuiz.contains(vocabularyList.view(0).getVocab()));
+        } catch (VocabularyListBoundsException e) {
+            fail("Fail to view vocabulary");
+        }
     }
 }

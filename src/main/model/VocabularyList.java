@@ -1,11 +1,13 @@
 package model;
 
+import exceptions.VocabularyListBoundsException;
+
 import java.util.ArrayList;
 
 /*
 Represent a vocabulary list to collect English words and idioms.
  */
-public class VocabularyList {
+public class VocabularyList extends Vocabulary {
     private ArrayList<Vocabulary> vocabList;
 
     // EFFECTS: make new instance of vocabulary list
@@ -29,16 +31,20 @@ public class VocabularyList {
         return false;
     }
 
-    // REQUIRES: 0 <= index < size
     // EFFECTS: return a Vocabulary object refered by index
-    public Vocabulary view(int index) {
+    public Vocabulary view(int index) throws VocabularyListBoundsException {
+        if (!(0 <= index && index < size())) {
+            throw new VocabularyListBoundsException("Index is out of bounds");
+        }
         return vocabList.get(index);
     }
 
-    // REQUIRES: 0 <= index < size
     // MODIFIES: this
     // EFFECTS: delete a Vocabulary object from list, return true if succeed otherwise false
-    public Vocabulary delete(int index) {
+    public Vocabulary delete(int index) throws VocabularyListBoundsException {
+        if (!(0 <= index && index < size())) {
+            throw new VocabularyListBoundsException("Index is out of bounds");
+        }
         Vocabulary vocabulary = vocabList.get(index);
         vocabList.remove(index);
         return  vocabulary;
@@ -49,7 +55,11 @@ public class VocabularyList {
     public void deleteAll() {
         int length = size();
         for (int i = 0; i < length; i++) {
-            delete(0);
+            try {
+                delete(0);
+            } catch (VocabularyListBoundsException e) {
+                e.printStackTrace();
+            }
         }
     }
 

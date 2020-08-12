@@ -1,5 +1,6 @@
 package persistence;
 
+import exceptions.VocabularyListBoundsException;
 import model.Vocabulary;
 import model.VocabularyList;
 
@@ -33,10 +34,15 @@ public class VocabularyFileSystem {
         FileWriter fw = new FileWriter(file, false);
         BufferedWriter bw = new BufferedWriter(fw);
         for (int i = 0; i < vocabularyList.size(); i++) {
-            Vocabulary v = vocabularyList.view(i);
-            String fileContent = String.format("%s,%s,%s\n",
-                    v.getVocab(), v.getMeaning(), Boolean.toString(v.isRemember()));
-            bw.write(fileContent);
+            Vocabulary v = null;
+            try {
+                v = vocabularyList.view(i);
+                String fileContent = String.format("%s,%s,%s\n",
+                        v.getVocab(), v.getMeaning(), Boolean.toString(v.isRemember()));
+                bw.write(fileContent);
+            } catch (VocabularyListBoundsException e) {
+                e.printStackTrace();
+            }
         }
         bw.close();
         fw.close();

@@ -1,10 +1,10 @@
 package persistence;
 
+import exceptions.VocabularyListBoundsException;
 import model.Vocabulary;
 import model.VocabularyList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import persistence.VocabularyFileSystem;
 
 import java.io.IOException;
 import static org.junit.jupiter.api.Assertions.*;
@@ -70,10 +70,14 @@ public class VocabularyFileSystemTest {
         }
 
         assertEquals(5, newList.size());
-        for(int i = 0; i < 5; i++) {
-            assertEquals(vocabularyList.view(i).getVocab(), newList.view(i).getVocab());
-            assertEquals(vocabularyList.view(i).getMeaning(), newList.view(i).getMeaning());
-            assertEquals(vocabularyList.view(i).isRemember(), newList.view(i).isRemember());
+        try {
+            for(int i = 0; i < 5; i++) {
+                assertEquals(vocabularyList.view(i).getVocab(), newList.view(i).getVocab());
+                assertEquals(vocabularyList.view(i).getMeaning(), newList.view(i).getMeaning());
+                assertEquals(vocabularyList.view(i).isRemember(), newList.view(i).isRemember());
+            }
+        } catch (VocabularyListBoundsException e) {
+            fail("Fail to view vocabulary");
         }
 
         try {
@@ -82,10 +86,14 @@ public class VocabularyFileSystemTest {
             fail("Fail to load data");
         }
         assertEquals(vocabularyList.size(), newList.size());
-        for (int i = 0; i < 5; i++) {
-            assertEquals(vocabularyList.view(i).getVocab(), newList.view(i).getVocab());
-            assertEquals(vocabularyList.view(i).getMeaning(), newList.view(i).getMeaning());
-            assertEquals(vocabularyList.view(i).isRemember(), newList.view(i).isRemember());
+        try {
+            for (int i = 0; i < 5; i++) {
+                assertEquals(vocabularyList.view(i).getVocab(), newList.view(i).getVocab());
+                assertEquals(vocabularyList.view(i).getMeaning(), newList.view(i).getMeaning());
+                assertEquals(vocabularyList.view(i).isRemember(), newList.view(i).isRemember());
+            }
+        } catch (VocabularyListBoundsException e) {
+            fail("Fail to view vocabulary");
         }
     }
 }

@@ -1,6 +1,7 @@
 package ui;
 
 import exceptions.NotEnoughVocabularyException;
+import exceptions.VocabularyListBoundsException;
 import model.Vocabulary;
 import model.VocabularyList;
 import model.VocabularyQuizList;
@@ -152,7 +153,12 @@ public class GraphicalUI extends UserInterface {
     public void list() {
         setUp();
         guiAssist.listHead();
-        JList list = guiAssist.listBody();
+        JList list = null;
+        try {
+            list = guiAssist.listBody();
+        } catch (VocabularyListBoundsException e) {
+            e.printStackTrace();
+        }
         guiAssist.listCommand(list);
         frame.setVisible(true);
     }
@@ -163,8 +169,13 @@ public class GraphicalUI extends UserInterface {
     public void detail(int index) {
         setUp();
         guiAssist.detailHead();
-        guiAssist.detailBody(index);
-        guiAssist.detailCommand(index);
+        try {
+            guiAssist.detailBody(index);
+            guiAssist.detailCommand(index);
+        } catch (VocabularyListBoundsException e) {
+            e.printStackTrace();
+        }
+
         frame.setVisible(true);
     }
 
@@ -194,6 +205,8 @@ public class GraphicalUI extends UserInterface {
                     "At least 10 unremembered vocabularies are needed.",
                     "Quiz Error",
                     JOptionPane.ERROR_MESSAGE);
+        } catch (VocabularyListBoundsException e) {
+            e.printStackTrace();
         }
     }
 

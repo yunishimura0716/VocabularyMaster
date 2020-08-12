@@ -1,6 +1,7 @@
 package ui;
 
 import exceptions.NotEnoughVocabularyException;
+import exceptions.VocabularyListBoundsException;
 import ui.assist.ConsoleUIAssist;
 import ui.assist.QuizRunnerConsoleUI;
 
@@ -90,7 +91,11 @@ public class ConsoleUI extends UserInterface {
     // EFFECTS: showing list page on console
     @Override
     public void list() {
-        cuiAssist.listHead();
+        try {
+            cuiAssist.listHead();
+        } catch (VocabularyListBoundsException e) {
+            System.out.println(e.getMessage());
+        }
         cuiAssist.listCommand();
         boolean inputFail = true;
         int requestNum = 0;
@@ -141,7 +146,11 @@ public class ConsoleUI extends UserInterface {
     // EFFECTS: showing detail page, user can delete or mark as remember
     @Override
     public void detail(int vocabNum) {
-        cuiAssist.detailHead(vocabNum);
+        try {
+            cuiAssist.detailHead(vocabNum);
+        } catch (VocabularyListBoundsException e) {
+            System.out.println(e.getMessage());
+        }
         cuiAssist.detailCommand();
         int requestNum = 0;
         boolean inputFail = true;
@@ -156,11 +165,19 @@ public class ConsoleUI extends UserInterface {
             } catch (InputMismatchException e) {
                 cuiAssist.invalidInput();
                 input.nextLine();
-                cuiAssist.detailHead(vocabNum);
+                try {
+                    cuiAssist.detailHead(vocabNum);
+                } catch (VocabularyListBoundsException err) {
+                    System.out.println(err.getMessage());
+                }
                 cuiAssist.detailCommand();
             }
         }
-        cuiAssist.detailRequest(requestNum);
+        try {
+            cuiAssist.detailRequest(requestNum);
+        } catch (VocabularyListBoundsException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     // EFFECTS: showing vocabulary quiz page
@@ -172,6 +189,8 @@ public class ConsoleUI extends UserInterface {
             QuizRunnerConsoleUI quizRunner = new QuizRunnerConsoleUI(quiz);
             quizRunner.runQuiz();
         } catch (NotEnoughVocabularyException e) {
+            System.out.println(e.getMessage());
+        } catch (VocabularyListBoundsException e) {
             System.out.println(e.getMessage());
         }
         setPageNum(0);

@@ -1,6 +1,7 @@
 package ui.assist;
 
 
+import exceptions.VocabularyListBoundsException;
 import model.Vocabulary;
 import model.VocabularyList;
 import ui.ConsoleUI;
@@ -51,7 +52,7 @@ public class ConsoleUIAssist {
 
     // MODIFIES: this
     // EFFECTS: set page number based request num
-    public void detailRequest(int requestNum) {
+    public void detailRequest(int requestNum) throws VocabularyListBoundsException {
         if (requestNum == 0) {
             cui.setPageNum(requestNum);
         } else if (requestNum == 1) {
@@ -85,7 +86,7 @@ public class ConsoleUIAssist {
     }
 
     // EFFECTS: list the vocabularies
-    public void listHead() {
+    public void listHead() throws VocabularyListBoundsException {
         System.out.println("\n-----------------------------------------------------");
         System.out.println("No | vocabulary (remember or not remember)");
         System.out.println("   | meaning");
@@ -137,7 +138,7 @@ public class ConsoleUIAssist {
 
     // REQUIRES: vocabNum >= 1
     // EFFECTS: show detail of vocabulary
-    public void detailHead(int vocabNum) {
+    public void detailHead(int vocabNum) throws VocabularyListBoundsException {
         System.out.println("\n--------------------------------------------------------");
         int i = vocabNum - 1;
         String isRemember = vocabularyList.view(i).isRemember() ? "(remember)" : "(not remember)";

@@ -43,3 +43,17 @@ On detail page, you can choose to delete or mark as remeber(or forget) to the vo
 - You can save the state of your vocabulary list by clicking "save" button on list page or<br>
 choosing "yes" when you exit from application.
 - You can load the file data to vocabulary list by pushing "load" button on home page.
+
+## Phase4: Task2
+- I test and design "VocabularyList" class to be robust. I use own defined "VocabularyListBoundsException" exception class<br>
+ for "view" and "delete" method. In "VocabularyListTest", I have a case to test throwing VocabularyListBoundsException <br>
+properly and a case to test not throwing the exception.
+- I have bi-directional relation between "GraphicalUI" class and "GraphicalAssist" class, also "ConsoleUI" class and <br>
+"ConsoleUiAssist" class.
+
+## Phase4: Task3
+- In the first development, we made "GraphicalUI" class and "ConsoleUI" class individually. However, there are some method <br>
+having the same signature or the same implementation. So, I made new abstract class "UserInterface" to make low coupling.<br> 
+- Also, there is implementation of background music and button effect methods in "GraphicalUI" class. However, these methods <br>
+are not responsible for "GraphicalUI" class, so I made new abstract class "Music" and its subclass "BackGroundMusic" and <br>
+"ButtonEventMusic" to achieve high cohesion.
