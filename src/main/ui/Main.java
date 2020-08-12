@@ -4,13 +4,14 @@ import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) {
-//        ConsoleUI myApp = new ConsoleUI();
-        GraphicalUI myApp = null;
+        ConsoleUI cuiApp = null;
+        GraphicalUI guiApp = null;
         try {
-            myApp = new GraphicalUI();
+            // cuiApp = new ConsoleUI();
+            guiApp = new GraphicalUI();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        myApp.main();
+        guiApp.main();
     }
 }
