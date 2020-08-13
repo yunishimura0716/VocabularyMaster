@@ -359,7 +359,8 @@ public class GraphicalUIAssist {
     // MODIFIES: this
     // EFFECTS: showing detail command on detail page
     public void detailCommand(int index) throws VocabularyListBoundsException {
-        String[] values = {"delete", "list", gui.getVocabularyList().view(index).isRemember() ? "forget" : "remember", "home"};
+        String[] values = {"delete", "list",
+                gui.getVocabularyList().view(index).isRemember() ? "forget" : "remember", "home"};
         int size = 4;
         for (int i = 0; i < size; i++) {
             JButton b = new JButton(values[i]);
