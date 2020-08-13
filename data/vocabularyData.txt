@@ -8,3 +8,6 @@ Get out of hand,Get out of control,false
 Get your act together,Work better or leave,false
 So far so good,Things are going well so far,false
 The best of both worlds,An ideal situation,false
+word1,meaning1,false
+word2,meaning2,false
+word3,meaning3,false

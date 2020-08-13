@@ -2,8 +2,7 @@ package ui.assist;
 
 
 import exceptions.VocabularyListBoundsException;
-import model.Vocabulary;
-import model.VocabularyList;
+
 import ui.ConsoleUI;
 
 /*
@@ -11,11 +10,9 @@ Collection of CUI tool to display instructions
  */
 public class ConsoleUIAssist {
     private ConsoleUI cui;
-    private VocabularyList vocabularyList;
 
-    public ConsoleUIAssist(ConsoleUI cui, VocabularyList vocabularyList) {
+    public ConsoleUIAssist(ConsoleUI cui) {
         this.cui = cui;
-        this.vocabularyList = vocabularyList;
     }
 
     // EFFECTS: print to remind user of giving invalid input
@@ -58,13 +55,13 @@ public class ConsoleUIAssist {
         } else if (requestNum == 1) {
             cui.setPageNum(requestNum);
         } else if (requestNum == 2) {
-            vocabularyList.delete(cui.getVocabNum() - 1);
+            cui.getVocabularyList().delete(cui.getVocabNum() - 1);
             cui.setPageNum(1);
         } else if (requestNum == 3) {
-            vocabularyList.view(cui.getVocabNum() - 1).setRemember(true);
+            cui.getVocabularyList().view(cui.getVocabNum() - 1).setRemember(true);
             cui.setPageNum(1);
         } else {
-            vocabularyList.view(cui.getVocabNum() - 1).setRemember(false);
+            cui.getVocabularyList().view(cui.getVocabNum() - 1).setRemember(false);
             cui.setPageNum(1);
         }
     }
@@ -91,12 +88,12 @@ public class ConsoleUIAssist {
         System.out.println("No | vocabulary (remember or not remember)");
         System.out.println("   | meaning");
         System.out.println("------------------------------------------------------");
-        for (int i = 0; i < vocabularyList.size(); i++) {
+        for (int i = 0; i < cui.getVocabularyList().size(); i++) {
             System.out.println("------------------------------------------------------");
             int vocabNum = i + 1;
-            String isRemember = vocabularyList.view(i).isRemember() ? "(remember)" : "(not remember)";
-            System.out.printf("%-3d| %s %s\n", vocabNum, vocabularyList.view(i).getVocab(), isRemember);
-            System.out.printf("   | %s\n", vocabularyList.view(i).getMeaning());
+            String isRemember = cui.getVocabularyList().view(i).isRemember() ? "(remember)" : "(not remember)";
+            System.out.printf("%-3d| %s %s\n", vocabNum, cui.getVocabularyList().view(i).getVocab(), isRemember);
+            System.out.printf("   | %s\n", cui.getVocabularyList().view(i).getMeaning());
         }
     }
 
@@ -141,12 +138,12 @@ public class ConsoleUIAssist {
     public void detailHead(int vocabNum) throws VocabularyListBoundsException {
         System.out.println("\n--------------------------------------------------------");
         int i = vocabNum - 1;
-        String isRemember = vocabularyList.view(i).isRemember() ? "(remember)" : "(not remember)";
+        String isRemember = cui.getVocabularyList().view(i).isRemember() ? "(remember)" : "(not remember)";
         System.out.println("No | vocabulary (remember or not remember)");
         System.out.println("   | meaning");
         System.out.println("--------------------------------------------------------");
-        System.out.printf("%-3d| %s %s\n", vocabNum, vocabularyList.view(i).getVocab(), isRemember);
-        System.out.printf("   | %s\n", vocabularyList.view(i).getMeaning());
+        System.out.printf("%-3d| %s %s\n", vocabNum, cui.getVocabularyList().view(i).getVocab(), isRemember);
+        System.out.printf("   | %s\n", cui.getVocabularyList().view(i).getMeaning());
         System.out.println("--------------------------------------------------------");
     }
 

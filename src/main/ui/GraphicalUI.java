@@ -2,10 +2,7 @@ package ui;
 
 import exceptions.NotEnoughVocabularyException;
 import exceptions.VocabularyListBoundsException;
-import model.Vocabulary;
 import model.VocabularyList;
-import model.VocabularyQuizList;
-import persistence.VocabularyFileSystem;
 import ui.assist.GraphicalUIAssist;
 import ui.assist.QuizRunnerGraphicalUI;
 import ui.image.ImagePanel;
@@ -29,6 +26,7 @@ public class GraphicalUI extends UserInterface {
     private BackGroundMusic bgm;
     public ButtonEventMusic buttonEffect;
     private String bgiPath;
+    private QuizRunnerGraphicalUI quizRunner;
 
 
     public GraphicalUI() throws IOException {
@@ -40,7 +38,7 @@ public class GraphicalUI extends UserInterface {
         constraints = new GridBagConstraints();
         constraints.anchor = GridBagConstraints.WEST;
 
-        guiAssist = new GraphicalUIAssist(this, vocabularyList);
+        guiAssist = new GraphicalUIAssist(this);
 
         try {
             bgm = new BackGroundMusic("bgm_2.wav");
@@ -51,6 +49,10 @@ public class GraphicalUI extends UserInterface {
             JOptionPane.showMessageDialog(frame,"Fail to connect with your file system.",
                     "File System Error", JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    public VocabularyList getVocabularyList() {
+        return vocabularyList;
     }
 
     public JFrame getFrame() {
@@ -200,8 +202,8 @@ public class GraphicalUI extends UserInterface {
     public void quiz() {
         try {
             quiz.makeQuizList();
-            QuizRunnerGraphicalUI quizRunner = new QuizRunnerGraphicalUI(this);
-            setUp();;
+            quizRunner = new QuizRunnerGraphicalUI(this);
+            setUp();
             quizRunner.instruction();
             frame.setVisible(true);
         } catch (NotEnoughVocabularyException e) {

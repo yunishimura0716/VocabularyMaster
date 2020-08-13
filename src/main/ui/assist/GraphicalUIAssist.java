@@ -4,7 +4,6 @@ import exceptions.VocabularyListBoundsException;
 import model.Vocabulary;
 import model.VocabularyList;
 import ui.GraphicalUI;
-import ui.music.ButtonEventMusic;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,11 +13,9 @@ import java.util.ArrayList;
 
 public class GraphicalUIAssist {
     private GraphicalUI gui;
-    private VocabularyList vocabList;
 
-    public GraphicalUIAssist(GraphicalUI gui, VocabularyList vocabList) {
+    public GraphicalUIAssist(GraphicalUI gui) {
         this.gui = gui;
-        this.vocabList = vocabList;
     }
 
     //EFFECTS: add action listener to exit
@@ -69,7 +66,7 @@ public class GraphicalUIAssist {
                         JOptionPane.YES_NO_OPTION);
                 if (n == 0) {
                     try {
-                        vocabList.delete(index);
+                        gui.getVocabularyList().delete(index);
                     } catch (VocabularyListBoundsException err) {
                         err.printStackTrace();
                     }
@@ -90,7 +87,7 @@ public class GraphicalUIAssist {
             public void actionPerformed(ActionEvent e) {
                 gui.getButtonEffect().play();
                 try {
-                    vocabList.view(index).setRemember(isRemember);
+                    gui.getVocabularyList().view(index).setRemember(isRemember);
                 } catch (VocabularyListBoundsException vocabularyListBoundsException) {
                     vocabularyListBoundsException.printStackTrace();
                 }
@@ -276,8 +273,8 @@ public class GraphicalUIAssist {
     // EFFECTS: adding list component on panel
     public JList listBody() throws VocabularyListBoundsException {
         ArrayList<String> vocabSerializer = new ArrayList<>();
-        for (int i = 0; i < vocabList.size(); i++) {
-            Vocabulary v = vocabList.view(i);
+        for (int i = 0; i < gui.getVocabularyList().size(); i++) {
+            Vocabulary v = gui.getVocabularyList().view(i);
             String remember = v.isRemember() ? "remember" : "not remember";
             String vocabFormat = String.format(
                     "<HTML><pre> %s  (%s)<BR>=> %s</pre></HTML>",
@@ -337,7 +334,7 @@ public class GraphicalUIAssist {
     // MODIFIES: this
     // EFFECTS: showing detail of a vocabulary on body of page
     public void detailBody(int index) throws VocabularyListBoundsException {
-        Vocabulary v = vocabList.view(index);
+        Vocabulary v = gui.getVocabularyList().view(index);
         String remember = v.isRemember() ? "remember" : "not remember";
         JLabel vlabel = new JLabel(String.format("<html><pre>%s  (%s)</pre></html>", v.getVocab(), remember));
         vlabel.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 25));
@@ -362,7 +359,7 @@ public class GraphicalUIAssist {
     // MODIFIES: this
     // EFFECTS: showing detail command on detail page
     public void detailCommand(int index) throws VocabularyListBoundsException {
-        String[] values = {"delete", "list", vocabList.view(index).isRemember() ? "forget" : "remember", "home"};
+        String[] values = {"delete", "list", gui.getVocabularyList().view(index).isRemember() ? "forget" : "remember", "home"};
         int size = 4;
         for (int i = 0; i < size; i++) {
             JButton b = new JButton(values[i]);

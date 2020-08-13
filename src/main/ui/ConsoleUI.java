@@ -2,6 +2,7 @@ package ui;
 
 import exceptions.NotEnoughVocabularyException;
 import exceptions.VocabularyListBoundsException;
+import model.VocabularyList;
 import ui.assist.ConsoleUIAssist;
 import ui.assist.QuizRunnerConsoleUI;
 
@@ -16,13 +17,14 @@ public class ConsoleUI extends UserInterface {
     private int pageNum = 0;  // 0: home page, 1: listing page // 2: add page // 3: detail page
     private int vocabNum;
     Scanner input;
+    QuizRunnerConsoleUI quizRunner;
 
     // EFFECTS: make user's vocabulary list (next phase: loaded file from storage)
     public ConsoleUI() throws IOException {
         super();
 
         input = new Scanner(System.in);
-        cuiAssist = new ConsoleUIAssist(this, vocabularyList);
+        cuiAssist = new ConsoleUIAssist(this);
 
         try {
             fileTool.load();
@@ -31,6 +33,10 @@ public class ConsoleUI extends UserInterface {
         } catch (VocabularyListBoundsException e) {
             e.printStackTrace();
         }
+    }
+
+    public VocabularyList getVocabularyList() {
+        return vocabularyList;
     }
 
     // EFFECTS: get vocabulary number
@@ -202,7 +208,7 @@ public class ConsoleUI extends UserInterface {
         try {
             quiz.makeQuizList();
 
-            QuizRunnerConsoleUI quizRunner = new QuizRunnerConsoleUI(quiz);
+            quizRunner = new QuizRunnerConsoleUI(quiz);
             quizRunner.runQuiz();
         } catch (NotEnoughVocabularyException e) {
             System.out.println(e.getMessage());
