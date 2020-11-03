@@ -16,7 +16,16 @@ A *proposal*:
     So, increasing vocabulary is necessary and significant for my living and academic studying.
 
 ## How to start this application
+This is GUI app built in Java. Please make sure you have installed java on your environment.
+
 Just run main method in Main class
+#### Home Screen
+![Screen Shot 2020-11-03 at 8 53 44 AM](https://user-images.githubusercontent.com/38684796/98016099-69b84400-1db2-11eb-865f-85597f4f0144.png)
+#### list of vaocaburary
+![Screen Shot 2020-11-03 at 8 54 10 AM](https://user-images.githubusercontent.com/38684796/98016107-6de46180-1db2-11eb-816d-efa6a62aa419.png)
+#### quiz
+![Screen Shot 2020-11-03 at 8 54 42 AM](https://user-images.githubusercontent.com/38684796/98016112-6e7cf800-1db2-11eb-90eb-481dee4b467a.png)
+![Screen Shot 2020-11-03 at 8 54 58 AM](https://user-images.githubusercontent.com/38684796/98016114-6f158e80-1db2-11eb-87f7-8c3aefe2c0d9.png)
 
 ## User Stories
 In the context of *Vocabulary Master* application:
